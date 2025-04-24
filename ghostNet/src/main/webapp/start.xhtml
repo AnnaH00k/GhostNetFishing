@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+<h:head>
+	<title>Login Page</title>
+	<link rel="stylesheet" type="text/css" href="resources/css/start.css" />
+	
+</h:head>
+
+<h:body>
+
+    <h:outputText value="#{user.name}" />
+
+      
+      
+      
+   <h:form>
+   
+   <!-- Write user bean with name , phone number, status (meldend, bergend) -->
+     <p:inputText id="username" label="Benutzername" value="#{loginBean.username}" placeholder="Benutzername" required="true" />
+   
+      <p:button value="Log in" styleClass="ui-button-raised ui-button-secondary" />
+      
+      
+   </h:form>
+</h:body>
+
+
+</html>

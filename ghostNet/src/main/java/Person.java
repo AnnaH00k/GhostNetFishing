@@ -16,7 +16,7 @@ public class Person
     {
         this.nr = nr;
         this.setName(name);
-        this.setText(telefonnummer);
+        this.setTelefonnummer(telefonnummer);
         this.setBild(bild);
     }
 
@@ -48,7 +48,7 @@ public class Person
 		this.name = name;
 	}
 
-	public void setText(String telefonnummer) {
+	public void setTelefonnummer(String telefonnummer) {
 		this.telefonnummer = telefonnummer;
 	}
 

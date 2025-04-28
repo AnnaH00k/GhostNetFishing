@@ -10,7 +10,7 @@ import jakarta.inject.Named;
 public class PersonenListe
 {
     private List<Person> nutzer = new ArrayList<Person>();
-    private Person neuePerson = new Person(0, "", "", ""); // Temp-Person
+    private Person neuePerson = new Person(0, "", "", "");
 
    
     public PersonenListe()
@@ -41,7 +41,6 @@ public class PersonenListe
 	        int neueID = nutzer.size() + 1;
 	        neuePerson.setNr(neueID);
 	        nutzer.add(new Person(neueID, neuePerson.getName(), neuePerson.getTelefonnummer(), neuePerson.getBild()));
-
 	        neuePerson = new Person(0, "", "", "");
 	    }
 }

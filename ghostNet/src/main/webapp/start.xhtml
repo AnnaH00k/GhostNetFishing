@@ -14,9 +14,6 @@
 </h:head>
 
 <h:body>
-
-    <h:outputText id="name" value="Hallo #{person.name}" />
-
    
    
 <h1>Nutzertabelle</h1>
@@ -26,7 +23,7 @@
 
     <h:dataTable id="nutzerTabelle" var="person" value="#{personenListe.nutzer}"
                  styleClass="person" rowClasses="ungerade, gerade"
-                 columnClasses="nr, name, text, bild">
+                 columnClasses="nr, name, telefonnummer, bild">
     
         <f:facet name="header">
             <h:panelGrid columns="5" style="width:100%">
@@ -68,34 +65,112 @@
 
 </h:form>
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h1>Geisternetz Tabelle</h1>
+<h2>Übersicht über alle Geisternetze</h2>
    
-	   <h1>Geisternetztabelle</h1>
-	   <h2>Übersicht über alle Geisternetze</h2>
-	   <h:dataTable var="geisternetz" value="#{geisternetzListe.fundstücke}"
-	               styleClass="geisternetz" rowClasses="ungerade, gerade"
-	               columnClasses="nr, , , bild">
-		   <h:column>
-		     <f:facet name="header">Nr</f:facet>
-		     <h:outputText value="#{geisternetz.nr}"/>
-		   </h:column>
-		   <h:column>
-		     <f:facet name="header">Standort</f:facet>
-		     <h:outputText value="#{geisternetz.standort}"/>
-		   </h:column>
-		   <h:column>
-		     <f:facet name="header">geschätzte Größe</f:facet>
-		     <h:outputText value="#{geisternetz.groeße}"/>
-	       </h:column>
-	       <h:column>
-		     <f:facet name="header">Status</f:facet>
-		     <h:outputText value="#{geisternetz.status}"/>
-		   </h:column>
-		   <h:column>
-		     <f:facet name="header">Bild</f:facet>
-	         <h:graphicImage url="#{geisternetz.bild}"/>
-	       </h:column>
-	  </h:dataTable>
+   <h:form id="geisternetzForm">
+
+    <h:dataTable id="geisternetzTabelle" var="geisternetz" value="#{geisternetzListe.fundstücke}"
+                 styleClass="geisternetz" rowClasses="ungerade, gerade"
+                 columnClasses="nr, name, text, bild">
     
+        <f:facet name="header">
+            <h:panelGrid columns="6" style="width:100%">
+                <h:outputText value="Neues Geisternetz" />
+                
+                <p:inputText value="#{geisternetzListe.neuesGeisternetz.standort}" placeholder="Standort" />
+                <p:inputText value="#{geisternetzListe.neuesGeisternetz.groeße}" placeholder="Größe" />
+                <p:inputText value="#{geisternetzListe.neuesGeisternetz.status}" placeholder="Status" />
+                 <p:inputText value="#{geisternetzListe.neuesGeisternetz.bild}" placeholder="Bild-URL" />
+                
+                
+                <p:commandButton value="Hinzufügen"
+                                 action="#{geisternetzListe.geisternetzHinzufuegen}"
+                                 update="geisternetzTabelle"
+                                 icon="pi pi-plus"
+                                 styleClass="ui-button-raised ui-button-secondary" />
+            </h:panelGrid>
+        </f:facet>
+
+        <h:column>
+            <f:facet name="header">Nr</f:facet>
+            <h:outputText value="#{geisternetz.nr}"/>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">Standort</f:facet>
+            <h:outputText value="#{geisternetz.standort}"/>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">Größe</f:facet>
+            <h:outputText value="#{geisternetz.groeße}"/>
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">Status</f:facet>
+            <h:outputText value="#{geisternetz.status}"/>
+            
+        </h:column>
+        
+           <h:column>
+            <f:facet name="header">Bild</f:facet>
+        	<h:graphicImage url="#{geisternetz.bild}" style="width: 100px; height:100px;  object-fit: contain; border-radius: 5px;" />
+        </h:column>
+
+    </h:dataTable>
+
+</h:form>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
+	
 </h:body>
 
 

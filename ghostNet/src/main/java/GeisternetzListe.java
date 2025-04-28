@@ -10,6 +10,8 @@ import jakarta.inject.Named;
 public class GeisternetzListe
 {
     private List<Geisternetz> fundstücke = new ArrayList<Geisternetz>();
+    private Geisternetz neuesGeisternetz = new Geisternetz(0, "", "","", ""); 
+
 
    
     public GeisternetzListe()
@@ -27,4 +29,18 @@ public class GeisternetzListe
     {
         return fundstücke;
     }
+
+	public Geisternetz getNeuesGeisternetz() {
+		return neuesGeisternetz;
+	}
+
+	public void setNeuesGeisternetz(Geisternetz neuesGeisternetz) {
+		this.neuesGeisternetz = neuesGeisternetz;
+	}
+	 public void geisternetzHinzufuegen() {
+	        int neueID = fundstücke.size() + 1;
+	        neuesGeisternetz.setNr(neueID);
+	        fundstücke.add(new Geisternetz(neueID, neuesGeisternetz.getStandort(), neuesGeisternetz.getGroeße(),neuesGeisternetz.getStatus(), neuesGeisternetz.getBild()));
+	        neuesGeisternetz = new Geisternetz(0, "","", "", "");
+	    }
 }

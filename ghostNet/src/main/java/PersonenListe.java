@@ -11,6 +11,7 @@ public class PersonenListe
 {
     private List<Person> nutzer = new ArrayList<Person>();
     private Person neuePerson = new Person(0, "", "", "");
+    private int aktuelleIndex = 0;
 
    
     public PersonenListe()
@@ -43,4 +44,45 @@ public class PersonenListe
 	        nutzer.add(new Person(neueID, neuePerson.getName(), neuePerson.getTelefonnummer(), neuePerson.getBild()));
 	        neuePerson = new Person(0, "", "", "");
 	    }
-}
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 public Person getAktuellerNutzer() {
+	        if (!nutzer.isEmpty() && aktuelleIndex >= 0 && aktuelleIndex < nutzer.size()) {
+	            return nutzer.get(aktuelleIndex);
+	        }
+	        return null;
+	    }
+
+	    public void naechsterNutzer() {
+	        if (aktuelleIndex < nutzer.size() - 1) {
+	            aktuelleIndex++;
+	        }
+	    }
+
+	    public void vorherigerNutzer() {
+	        if (aktuelleIndex > 0) {
+	            aktuelleIndex--;
+	        }
+	    }
+
+	    public int getAktuelleIndex() {
+	        return aktuelleIndex;
+	    }
+
+	    public void setAktuelleIndex(int aktuelleIndex) {
+	        this.aktuelleIndex = aktuelleIndex;
+	    }
+
+	    public boolean isErsterNutzer() {
+	        return aktuelleIndex == 0;
+	    }
+
+	    public boolean isLetzterNutzer() {
+	        return aktuelleIndex >= nutzer.size() - 1;
+	    }
+	}

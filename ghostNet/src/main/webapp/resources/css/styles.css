@@ -51,3 +51,8 @@ tr.gerade {
 td.nr {
   background-color: lightblue;
 }
+
+error {
+	color: darkred;
+	font-variant: bold;
+}

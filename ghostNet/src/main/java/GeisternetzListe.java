@@ -11,6 +11,7 @@ public class GeisternetzListe
 {
     private List<Geisternetz> fundstücke = new ArrayList<Geisternetz>();
     private Geisternetz neuesGeisternetz = new Geisternetz(0, "", "","", ""); 
+    private int aktuellerIndex = 0;
 
 
    
@@ -42,5 +43,33 @@ public class GeisternetzListe
 	        neuesGeisternetz.setNr(neueID);
 	        fundstücke.add(new Geisternetz(neueID, neuesGeisternetz.getStandort(), neuesGeisternetz.getGroeße(),neuesGeisternetz.getStatus(), neuesGeisternetz.getBild()));
 	        neuesGeisternetz = new Geisternetz(0, "","", "", "");
+	    }
+	 
+	 
+	 public Geisternetz getAktuellesGeisternetz() {
+	        if (!fundstücke.isEmpty() && aktuellerIndex >= 0 && aktuellerIndex < fundstücke.size()) {
+	            return fundstücke.get(aktuellerIndex);
+	        }
+	        return null;
+	    }
+
+	    public void naechstesGeisternetz() {
+	        if (aktuellerIndex < fundstücke.size() - 1) {
+	            aktuellerIndex++;
+	        }
+	    }
+
+	    public void vorherigesGeisternetz() {
+	        if (aktuellerIndex > 0) {
+	            aktuellerIndex--;
+	        }
+	    }
+
+	    public boolean isErstesGeisternetz() {
+	        return aktuellerIndex == 0;
+	    }
+
+	    public boolean isLetztesGeisternetz() {
+	        return aktuellerIndex >= fundstücke.size() - 1;
 	    }
 }

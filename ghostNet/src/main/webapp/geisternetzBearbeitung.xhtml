@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Geisternetz bearbeiten</title>
+</h:head>
+
+<h:body>
+    <h:form id="geisternetzBearbeitungForm"
+            style="width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+        <h2>Geisternetz bearbeiten</h2>
+
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel value="Nr:" for="nr" />
+            <h:inputText id="nr" value="#{geisternetzListe.aktuellesGeisternetz.nr}" disabled="true" />
+
+            <h:outputLabel value="Standort:" for="standort" />
+            <h:inputText id="standort" value="#{geisternetzListe.aktuellesGeisternetz.standort}" required="true" />
+
+            <h:outputLabel value="Größe:" for="groesse" />
+            <h:inputText id="groesse" value="#{geisternetzListe.aktuellesGeisternetz.groeße}" required="true" />
+
+            <h:outputLabel value="Status:" for="status" />
+            <h:inputText id="status" value="#{geisternetzListe.aktuellesGeisternetz.status}" required="true" />
+
+            <h:outputLabel value="Bild-URL:" for="bild" />
+            <h:inputText id="bild" value="#{geisternetzListe.aktuellesGeisternetz.bild}" />
+
+            <h:outputLabel value="Bildvorschau:" />
+            <h:graphicImage value="#{geisternetzListe.aktuellesGeisternetz.bild}" width="100" height="100"
+                            style="object-fit: contain; border-radius: 5px;" />
+        </h:panelGrid>
+
+        <br />
+
+        <p:commandButton value="Speichern"
+                         action="#{geisternetzListe.geisternetzHinzufuegen}"
+                         update="@form"
+                         icon="pi pi-save" />
+
+        <p:spacer width="20" />
+
+        <h:panelGrid columns="2" cellpadding="5">
+            <p:commandButton value="Zurück"
+                             action="#{geisternetzListe.vorherigesGeisternetz}"
+                             update="@form"
+                             icon="pi pi-chevron-left"
+                             disabled="#{geisternetzListe.erstesGeisternetz}" />
+
+            <p:commandButton value="Weiter"
+                             action="#{geisternetzListe.naechstesGeisternetz}"
+                             update="@form"
+                             icon="pi pi-chevron-right"
+                             disabled="#{geisternetzListe.letztesGeisternetz}" />
+        </h:panelGrid>
+
+    </h:form>
+</h:body>
+</html>

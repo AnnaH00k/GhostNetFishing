@@ -1,133 +1,28 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:p="http://primefaces.org/ui"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 <h:head>
-	<title>Login Page</title>
-	<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
-	
+    <title>Start</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
 </h:head>
 
-<h:body>
-   
-   
-<h1>Nutzertabelle</h1>
-<h2>Übersicht über alle Nutzer</h2>
-   
-   <h:form id="nutzerForm">
+<h:body style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
 
-    <h:dataTable id="nutzerTabelle" var="person" value="#{personenListe.nutzer}"
-                 styleClass="person" rowClasses="ungerade, gerade"
-                 columnClasses="nr, name, telefonnummer, bild">
-    
-        <f:facet name="header">
-            <h:panelGrid columns="5" style="width:100%">
-                <h:outputText value="Neue Person:" />
-                
-                <p:inputText value="#{personenListe.neuePerson.name}" placeholder="Name" />
-                <p:inputText value="#{personenListe.neuePerson.telefonnummer}" placeholder="Telefonnummer" />
-                <p:inputText value="#{personenListe.neuePerson.bild}" placeholder="Bild-URL" />
-                
-                <p:commandButton value="Hinzufügen"
-                                 action="#{personenListe.personHinzufuegen}"
-                                 update="nutzerTabelle"
-                                 icon="pi pi-plus"
-                                 styleClass="ui-button-raised ui-button-secondary" />
-            </h:panelGrid>
-        </f:facet>
+    <h1>Willkommen zu SheaSepherd</h1>
 
-        <h:column>
-            <f:facet name="header">Nr</f:facet>
-            <h:outputText value="#{person.nr}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Name</f:facet>
-            <h:outputText value="#{person.name}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Telefonnummer</f:facet>
-            <h:outputText value="#{person.telefonnummer}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Bild</f:facet>
-        	<h:graphicImage url="#{person.bild}" style="width: 100px; height:100px;  object-fit: contain; border-radius: 5px;" />
-        </h:column>
+    <a href="tabellenÜbersicht.xhtml" style="text-decoration: none;">
+        <button style="padding: 0.5rem 1rem; font-size: 1rem;">📊 Tabellen Übersicht</button>
+    </a>
 
-    </h:dataTable>
+    <a href="nutzerBearbeitung.xhtml" style="text-decoration: none;">
+        <button style="padding: 0.5rem 1rem; font-size: 1rem;">👤 Nutzer bearbeiten</button>
+    </a>
 
-</h:form>
-  
-  
-  
-  <h1>Geisternetz Tabelle</h1>
-<h2>Übersicht über alle Geisternetze</h2>
-   
-   <h:form id="geisternetzForm">
+    <a href="geisternetzBearbeitung.xhtml" style="text-decoration: none;">
+        <button style="padding: 0.5rem 1rem; font-size: 1rem;">🌍 Geisternetze bearbeiten</button>
+    </a>
 
-    <h:dataTable id="geisternetzTabelle" var="geisternetz" value="#{geisternetzListe.fundstücke}"
-                 styleClass="geisternetz" rowClasses="ungerade, gerade"
-                 columnClasses="nr, name, text, bild">
-    
-        <f:facet name="header">
-            <h:panelGrid columns="6" style="width:100%">
-                <h:outputText value="Neues Geisternetz" />
-                
-                <p:inputText value="#{geisternetzListe.neuesGeisternetz.standort}" placeholder="Standort" />
-                <p:inputText value="#{geisternetzListe.neuesGeisternetz.groeße}" placeholder="Größe" />
-                <p:inputText value="#{geisternetzListe.neuesGeisternetz.status}" placeholder="Status" />
-                 <p:inputText value="#{geisternetzListe.neuesGeisternetz.bild}" placeholder="Bild-URL" />
-                
-                
-                <p:commandButton value="Hinzufügen"
-                                 action="#{geisternetzListe.geisternetzHinzufuegen}"
-                                 update="geisternetzTabelle"
-                                 icon="pi pi-plus"
-                                 styleClass="ui-button-raised ui-button-secondary" />
-            </h:panelGrid>
-        </f:facet>
-
-        <h:column>
-            <f:facet name="header">Nr</f:facet>
-            <h:outputText value="#{geisternetz.nr}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Standort</f:facet>
-            <h:outputText value="#{geisternetz.standort}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Größe</f:facet>
-            <h:outputText value="#{geisternetz.groeße}"/>
-        </h:column>
-        
-        <h:column>
-            <f:facet name="header">Status</f:facet>
-            <h:outputText value="#{geisternetz.status}"/>
-            
-        </h:column>
-        
-           <h:column>
-            <f:facet name="header">Bild</f:facet>
-        	<h:graphicImage url="#{geisternetz.bild}" style="width: 100px; height:100px;  object-fit: contain; border-radius: 5px;" />
-        </h:column>
-
-    </h:dataTable>
-
-</h:form>
-  
-  
-   
-	
 </h:body>
-
-
 </html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+    <title>Ghost Net Fishing: Registrierung</title>
+</h:head>
+
+<h:body>
+    <h1>Ghost Net Fishing: Registrierung</h1>
+    
+    <h:form>
+        <p>
+            <h:outputLabel for="name" value="Name:" />
+            <h:inputText id="name" value="#{personenListe.neuePerson.name}" size="40" required="true" />
+            <h:message for="name" styleClass="error" />
+        </p>
+        
+        <p>
+            <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+            <h:inputText id="telefonnummer" value="#{personenListe.neuePerson.telefonnummer}" size="40" required="true" />
+            <h:message for="telefonnummer" styleClass="error" />
+        </p>
+        
+        <p>
+            <h:outputLabel for="bild" value="Bild URL:" />
+            <h:inputText id="bild" value="#{personenListe.neuePerson.bild}" size="40" />
+            <h:message for="bild" styleClass="error" />
+        </p>
+        
+        <p>
+            <h:outputLabel for="rollentyp" value="Rolle:" />
+            <h:selectOneMenu id="rollentyp" value="#{personenListe.neuePerson.rollenTyp}" required="true">
+                <f:selectItem itemLabel="Bitte wählen..." itemValue="" />
+                <f:selectItems value="#{personenListe.rollenTypen}" var="rolle" 
+                              itemLabel="#{rolle}" itemValue="#{rolle}" />
+            </h:selectOneMenu>
+            <h:message for="rollentyp" styleClass="error" />
+        </p>
+        
+        <p>
+            <h:outputLabel for="passwort" value="Passwort:" />
+            <h:inputSecret id="passwort" value="#{personenListe.neuePerson.passwort}" size="40" required="true" />
+            <h:message for="passwort" styleClass="error" />
+        </p>
+        
+        <p>
+            <h:outputLabel for="passwortBestaetigung" value="Passwort bestätigen:" />
+            <h:inputSecret id="passwortBestaetigung" size="40" required="true" />
+            <h:message for="passwortBestaetigung" styleClass="error" />
+        </p>
+        
+        <p class="error">
+            <h:outputText value="#{registrierungController.fehlermeldung}" />
+        </p>
+        
+        <p>
+            <h:commandButton value="Registrieren" action="#{personenListe.personHinzufuegen}" />
+            <h:commandButton value="Zurück zum Login" action="login?faces-redirect=true" immediate="true" />
+        </p>
+    </h:form>
+</h:body>
+</html>

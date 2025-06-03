@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Shea Shepherd - Geisternetze verfolgen</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/landingpage.css" />
+</h:head>
+
+<h:body>
+    <h:form>
+        <div class="hero-section">
+            <div class="hero-overlay">
+                <div class="hero-content">
+                    <h1 class="hero-title">Shea Shepherd</h1>
+                    <h2 class="hero-subtitle">Geisternetze verfolgen und bergen</h2>
+                    <p class="hero-description">
+                        Melde und berge verlassene Fischernetze zum Schutz der Meeresumwelt
+                    </p>
+                    <div class="hero-actions">
+                        <p:commandButton value="Registrieren" 
+                                       action="/register.xhtml?faces-redirect=true"
+                                       icon="pi pi-user-plus" 
+                                       styleClass="p-button-lg p-button-raised hero-btn-primary"/>
+                        <p:commandButton value="Anmelden" 
+                                       action="/login.xhtml?faces-redirect=true"
+                                       icon="pi pi-sign-in" 
+                                       styleClass="p-button-lg p-button-outlined hero-btn-secondary"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-section">
+            <div class="container">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Was sind Geisternetze?</h3>
+                        <div class="card-content">
+                            <h:graphicImage library="images" name="ghost-net-underwater.jpg" 
+                                          alt="Geisternetz unter Wasser" styleClass="card-image"/>
+                            <p>Verloren gegangene oder absichtlich entsorgte Fischernetze, die im Meer treiben und weiterhin Tiere fangen.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Negative Auswirkungen</h3>
+                        <div class="card-content">
+                            <h:graphicImage library="images" name="ocean-impact.jpg" 
+                                          alt="Auswirkungen auf den Ozean" styleClass="card-image"/>
+                            <ul class="impact-list">
+                                <li>Tiere verfangen sich darin</li>
+                                <li>Zerstörung von Korallenriffen</li>
+                                <li>Plastikverschmutzung der Meere</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Meldende Person</h3>
+                        <div class="card-content">
+                            <div class="help-icon">
+                                <i class="pi pi-eye" style="font-size: 2.5rem; color: #74b9ff;"></i>
+                            </div>
+                            <p>Du meldest ein Geisternetz mit Standort und ggf. Foto.</p>
+                            <p:commandButton value="Geisternetz melden" 
+                                           icon="pi pi-camera" 
+                                           styleClass="p-button-outlined help-btn"/>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Bergende Person</h3>
+                        <div class="card-content">
+                            <div class="help-icon">
+                                <i class="pi pi-wrench" style="font-size: 2.5rem; color: #74b9ff;"></i>
+                            </div>
+                            <p>Du hilfst aktiv bei der Bergung von Geisternetzen mit.</p>
+                            <p:commandButton value="Bergung unterstützen" 
+                                           icon="pi pi-users" 
+                                           styleClass="p-button-outlined help-btn"/>
+                        </div>
+                    </div>
+
+                    <div class="info-card image-card">
+                        <h3>Bergungsaktion</h3>
+                        <div class="card-content">
+                            <h:graphicImage library="images" name="rescue-mission.jpg" 
+                                          alt="Bergungsaktion" styleClass="card-image"/>
+                        </div>
+                    </div>
+
+                    <div class="info-card image-card">
+                        <h3>Betroffene Tiere</h3>
+                        <div class="card-content">
+                            <h:graphicImage library="images" name="trapped-turtle.jpg" 
+                                          alt="Gefangene Schildkröte" styleClass="card-image"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>

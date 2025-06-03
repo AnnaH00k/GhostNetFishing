@@ -1,5 +1,7 @@
+
 public class Person
 {
+	 
     private int nr;
 
     private String name;
@@ -8,16 +10,20 @@ public class Person
 
     private String bild;
     
-    private boolean istMeldendePerson;
-    
-    private boolean istBergendePerson;
+    private RollenTyp rollenTyp;
+    private String passwort; 
 
-    public Person(int nr, String name, String telefonnummer, String bild)
+
+    
+    public Person(int nr, String name, String telefonnummer, String bild, RollenTyp rollenTyp, String passwort)
     {
         this.nr = nr;
         this.setName(name);
         this.setTelefonnummer(telefonnummer);
         this.setBild(bild);
+        this.setRollenTyp(rollenTyp);
+        this.setPasswort(passwort);
+
     }
 
     
@@ -40,6 +46,14 @@ public class Person
         return bild;
     }
     
+    public RollenTyp getRollenTyp() {
+        return rollenTyp;
+    }
+    public String getPasswort()
+    {
+        return passwort;
+    }
+    
     public void setNr(int nr) {
     	this.nr = nr;
     }
@@ -56,23 +70,12 @@ public class Person
 		this.bild = bild;
 	}
 
+	 public void setRollenTyp(RollenTyp rollenTyp) {
+	        this.rollenTyp = rollenTyp;
+	    }
+	 public void setPasswort(String passwort)
+	   {
+	       this.passwort = passwort;
+	   }
 
-	public boolean isIstMeldendePerson() {
-		return istMeldendePerson;
-	}
-
-
-	public void setIstMeldendePerson(boolean istMeldendePerson) {
-		this.istMeldendePerson = istMeldendePerson;
-	}
-
-
-	public boolean isIstBergendePerson() {
-		return istBergendePerson;
-	}
-
-
-	public void setIstBergendePerson(boolean istBergendePerson) {
-		this.istBergendePerson = istBergendePerson;
-	}
 }

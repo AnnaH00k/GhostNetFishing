@@ -1,28 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<h:head>
-    <title>Start</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
-</h:head>
+	<h:head>
+    	<title>Start</title>
+    		<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+    	
+    </h:head>
 
-<h:body style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
+<h:body >
 
     <h1>Willkommen zu SheaSepherd</h1>
 
-    <a href="tabellenÜbersicht.xhtml" style="text-decoration: none;">
-        <button style="padding: 0.5rem 1rem; font-size: 1rem;">📊 Tabellen Übersicht</button>
-    </a>
-
-    <a href="nutzerBearbeitung.xhtml" style="text-decoration: none;">
-        <button style="padding: 0.5rem 1rem; font-size: 1rem;">👤 Nutzer bearbeiten</button>
-    </a>
-
-    <a href="geisternetzBearbeitung.xhtml" style="text-decoration: none;">
-        <button style="padding: 0.5rem 1rem; font-size: 1rem;">🌍 Geisternetze bearbeiten</button>
-    </a>
+   	   <p:button outcome="tabellenÜbersicht" value="Tabellen Übersicht" icon="pi pi-table" />
+       <p:button outcome="nutzerBearbeitung" value="Nutzer bearbeiten" icon="pi pi-user"/>
+       <p:button outcome="geisternetzBearbeitung" value="Geisternetze bearbeiten" icon="pi pi-globe"/>
+       <p:button outcome="login" value="Login" icon="pi pi-sign-in"/>
 
 </h:body>
 </html>

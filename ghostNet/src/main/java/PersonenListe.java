@@ -1,29 +1,31 @@
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 
 @Named
-@ApplicationScoped
-public class PersonenListe
+@SessionScoped
+public class PersonenListe implements Serializable
 {
     private List<Person> nutzer = new ArrayList<Person>();
-    private Person neuePerson = new Person(0, "", "", "");
+    private Person neuePerson = new Person(0, "", "", "",RollenTyp.KEINE,"");
     private int aktuelleIndex = 0;
 
    
     public PersonenListe()
     {
     	nutzer.add(new Person(1, "Liane Herbert",
-                "0874168602", "https://cdn.pixabay.com/photo/2017/08/04/11/49/person-2579938_1280.jpg"));
+                "0874168602", "https://cdn.pixabay.com/photo/2017/08/04/11/49/person-2579938_1280.jpg", RollenTyp.KEINE,"passwort"));
     	nutzer.add(new Person(2, "Hugo Müller",
                 "7250412052",
-                "https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg"));
+                "https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg", RollenTyp.MELDEND,"passwort"));
     	nutzer.add(new Person(3, "MauMau Moe",
-                "0000000000", "resources/images/cat.jpeg"));
-    }
+                "0000000000", "resources/images/cat.jpeg", RollenTyp.BERGEND,"passwort"));
+     }
 
     public List<Person> getNutzer()
     {
@@ -41,12 +43,14 @@ public class PersonenListe
 	 public void personHinzufuegen() {
 	        int neueID = nutzer.size() + 1;
 	        neuePerson.setNr(neueID);
-	        nutzer.add(new Person(neueID, neuePerson.getName(), neuePerson.getTelefonnummer(), neuePerson.getBild()));
-	        neuePerson = new Person(0, "", "", "");
+	        nutzer.add(new Person(neueID, neuePerson.getName(), neuePerson.getTelefonnummer(), neuePerson.getBild(), neuePerson.getRollenTyp(), neuePerson.getPasswort()));
+	        neuePerson = new Person(0, "", "", "", RollenTyp.KEINE,"passwort");
 	    }
 
 	 
-	 
+	 public List<RollenTyp> getRollenTypen() {
+		    return Arrays.asList(RollenTyp.values());
+		}
 	 
 	 
 	 

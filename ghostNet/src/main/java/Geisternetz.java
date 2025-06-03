@@ -3,19 +3,27 @@ public class Geisternetz
     private int nr;
 
     private String standort;
+    
+    private double lat; // Breitengrad
+    private double lng; // Längengrad
+
 
     private String groeße;
 
     private String status;
     
     private String bild;
+    
+    private NetzStatus netzStatus;
 
-    public Geisternetz(int nr, String standort, String groeße, String status, String bild)
+    public Geisternetz(int nr, String standort, double lat, double lng, String groeße, NetzStatus netzStatus, String bild)
     {
         this.setNr(nr);
         this.setStandort(standort);
+        this.lat = lat;
+        this.lng = lng;
         this.setGroeße(groeße);
-        this.setStatus(status);
+        this.setNetzStatus(netzStatus);
         this.setBild(bild);
 
     }
@@ -31,9 +39,25 @@ public class Geisternetz
 	public String getStandort() {
 		return standort;
 	}
+	
+	public double getLat() {
+		return lat;
+	}
+	
+	public double getLng() {
+		return lng;
+	}
 
 	public void setStandort(String standort) {
 		this.standort = standort;
+	}
+	
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 
 	public String getGroeße() {
@@ -44,12 +68,13 @@ public class Geisternetz
 		this.groeße = groeße;
 	}
 
-	public String getStatus() {
-		return status;
+	
+	public NetzStatus getNetzStatus() {
+	    return netzStatus;
 	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	  
+	public void setNetzStatus(NetzStatus netzStatus) {
+	    this.netzStatus = netzStatus;
 	}
 
 	public String getBild() {

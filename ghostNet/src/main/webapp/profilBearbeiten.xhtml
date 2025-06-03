@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Profil bearbeiten</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+</h:head>
+
+<h:body>
+    <h:form id="profilForm">
+        <h2>Mein Profil bearbeiten</h2>
+
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel value="Nutzer-Nr.:" for="nr" />
+            <h:inputText id="nr" value="#{loginController.aktuellerNutzer.nr}" disabled="true" />
+
+            <h:outputLabel value="Name:" for="name" />
+            <h:inputText id="name" value="#{loginController.aktuellerNutzer.name}" required="true">
+                <f:validateRegex pattern="[a-zA-ZäöüÄÖÜß\s\-']{2,}" />
+            </h:inputText>
+            <h:outputLabel/>
+            <h:message for="name" style="color: darkred;" />
+
+            <h:outputLabel value="Telefonnummer:" for="telefonnummer" />
+            <h:inputText id="telefonnummer" value="#{loginController.aktuellerNutzer.telefonnummer}" required="true" />
+
+            <h:outputLabel value="Bild-URL:" for="bild" />
+            <h:inputText id="bild" value="#{loginController.aktuellerNutzer.bild}" />
+            
+            <h:outputLabel value="Rolle" for="rolle" />
+            <p:selectOneMenu id="rolle" value="#{loginController.aktuellerNutzer.rollenTyp}">
+	            <f:selectItems value="#{personenListe.rollenTypen}" var="typ"
+	                           itemValue="#{typ}" itemLabel="#{typ}" />
+	        </p:selectOneMenu>
+
+            <h:outputLabel value="Bildvorschau:" />
+            <h:graphicImage value="#{loginController.aktuellerNutzer.bild}" width="100" height="100"
+                            style="object-fit: contain; border-radius: 5px;" />
+
+            <h:outputLabel value="Passwort:" for="passwort" />
+            <h:inputSecret id="passwort" value="#{loginController.aktuellerNutzer.passwort}" redisplay="true" required="true" />
+        </h:panelGrid>
+
+        <br />
+
+        <p:commandButton value="Speichern"
+                         action="#{loginController.speichereProfil}"
+                         update="@form"
+                         icon="pi pi-save" />
+
+        <p:spacer width="20" />
+        <p:button outcome="dashboard" value="Zurück zum Dashboard" icon="pi pi-home"/>
+
+    </h:form>
+</h:body>
+</html>

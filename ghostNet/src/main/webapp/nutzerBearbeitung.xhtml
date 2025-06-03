@@ -6,10 +6,12 @@
 
 <h:head>
     <title>Nutzer bearbeiten</title>
+    		<link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+    
 </h:head>
 
 <h:body>
-    <h:form id="nutzerBearbeitungForm"         style="width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <h:form id="nutzerBearbeitungForm">
 
 
         <h2>Nutzer bearbeiten</h2>
@@ -36,7 +38,15 @@
             <h:outputLabel value="Bildvorschau:" />
             <h:graphicImage value="#{personenListe.aktuellerNutzer.bild}" width="100" height="100"
                             style="object-fit: contain; border-radius: 5px;" />
-        </h:panelGrid>
+        <h:outputLabel value="Passwort:" for="passwort" />
+        <h:inputSecret id="passwort" value="#{personenListe.aktuellerNutzer.passwort}" redisplay="true" required="true" />
+
+        <h:outputLabel value="Rolle:" for="rolle" />
+        <p:selectOneMenu id="rolle" value="#{personenListe.aktuellerNutzer.rollenTyp}">
+            <f:selectItems value="#{personenListe.rollenTypen}" var="typ"
+                           itemValue="#{typ}" itemLabel="#{typ}" />
+        </p:selectOneMenu>
+    </h:panelGrid>
 
         <br />
 

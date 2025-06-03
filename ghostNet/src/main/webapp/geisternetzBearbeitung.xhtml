@@ -6,11 +6,12 @@
 
 <h:head>
     <title>Geisternetz bearbeiten</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+    
 </h:head>
 
 <h:body>
-    <h:form id="geisternetzBearbeitungForm"
-            style="width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <h:form id="geisternetzBearbeitungForm">
 
         <h2>Geisternetz bearbeiten</h2>
 
@@ -21,11 +22,18 @@
             <h:outputLabel value="Standort:" for="standort" />
             <h:inputText id="standort" value="#{geisternetzListe.aktuellesGeisternetz.standort}" required="true" />
 
+ 			<h:outputLabel value="Breitengrad:" for="lat" />
+            <h:inputText id="lat" value="#{geisternetzListe.aktuellesGeisternetz.lat}" required="true" />
+
+			<h:outputLabel value="Längengrad:" for="lng" />
+            <h:inputText id="lng" value="#{geisternetzListe.aktuellesGeisternetz.lng}" required="true" />
+
+
             <h:outputLabel value="Größe:" for="groesse" />
             <h:inputText id="groesse" value="#{geisternetzListe.aktuellesGeisternetz.groeße}" required="true" />
 
             <h:outputLabel value="Status:" for="status" />
-            <h:inputText id="status" value="#{geisternetzListe.aktuellesGeisternetz.status}" required="true" />
+            <h:inputText id="status" value="#{geisternetzListe.aktuellesGeisternetz.netzStatus}" required="true" />
 
             <h:outputLabel value="Bild-URL:" for="bild" />
             <h:inputText id="bild" value="#{geisternetzListe.aktuellesGeisternetz.bild}" />
@@ -37,12 +45,13 @@
 
         <br />
 
+        
+
+        <p:spacer width="20" />
         <p:commandButton value="Speichern"
                          action="#{geisternetzListe.geisternetzHinzufuegen}"
                          update="@form"
                          icon="pi pi-save" />
-
-        <p:spacer width="20" />
 
         <h:panelGrid columns="2" cellpadding="5">
             <p:commandButton value="Zurück"
@@ -56,8 +65,11 @@
                              update="@form"
                              icon="pi pi-chevron-right"
                              disabled="#{geisternetzListe.letztesGeisternetz}" />
+    
         </h:panelGrid>
-
+        
+    
+                             
     </h:form>
 </h:body>
 </html>

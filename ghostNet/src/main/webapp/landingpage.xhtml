@@ -17,10 +17,12 @@
             <div class="hero-overlay">
                 <div class="hero-content">
                     <h1 class="hero-title">Shea Shepherd</h1>
-                    <h2 class="hero-subtitle">Geisternetze verfolgen und bergen</h2>
+                    <h2 class="hero-subtitle">Geisternetze melden und bergen</h2>
                     <p class="hero-description">
-                        Melde und berge verlassene Fischernetze zum Schutz der Meeresumwelt
+                      Zum Schutz der Meeresumwelt. 
+                        Gemeinsam gegen die Plastikverschmutzung unserer Ozeane.
                     </p>
+                   
                     <div class="hero-actions">
                         <p:commandButton value="Registrieren" 
                                        action="/register.xhtml?faces-redirect=true"
@@ -37,71 +39,162 @@
 
         <div class="main-section">
             <div class="container">
+               
+
                 <div class="info-grid">
                     <div class="info-card">
                         <h3>Was sind Geisternetze?</h3>
                         <div class="card-content">
                             <h:graphicImage library="images" name="ghost-net-underwater.jpg" 
                                           alt="Geisternetz unter Wasser" styleClass="card-image"/>
-                            <p>Verloren gegangene oder absichtlich entsorgte Fischernetze, die im Meer treiben und weiterhin Tiere fangen.</p>
+                            <p>Verloren gegangene oder absichtlich entsorgte Fischernetze, die im Meer treiben und weiterhin Tiere fangen. 
+                            Anders als frühere Netze aus Hanf, Sisal oder Leinen verrotten moderne Kunststoffnetze erst nach mehreren Jahrhunderten.</p>
+                            <div class="card-stats">
+                                <span class="stat-highlight">10% aller Meeresabfälle</span> bestehen aus Geisternetzen
+                            </div>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3>Negative Auswirkungen</h3>
+                        <h3>Mikroplastik und Klimafolgen</h3>
                         <div class="card-content">
                             <h:graphicImage library="images" name="ocean-impact.jpg" 
-                                          alt="Auswirkungen auf den Ozean" styleClass="card-image"/>
+                                          alt="Mikroplastik im Meer" styleClass="card-image"/>
+                            <p> Seit den 1960er Jahren werden Fischernetze aus synthetischen Materialien wie Polypropylen, 
+                            Polyethylen und Nylon hergestellt - eine Entwicklung mit fatalen Folgen für unsere Meere. Geisternetze zerfallen über Jahrhunderte in immer kleinere Plastikpartikel. 
+                            Kontaminiertes Plankton bindet weniger CO2 aus der Atmosphäre, was die Funktion der Meere als 
+                            globale Kohlenstoffsenke verringert und den Klimawandel beschleunigt.</p>
+                            <div class="impact-warning">
+                                <i class="pi pi-exclamation-triangle"></i>
+                                <span>Verheerende Auswirkungen auf das Klimasystem</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Bedrohte Meerestiere</h3>
+                        <div class="card-content">
+                            <h:graphicImage library="images" name="trapped-turtle.jpg" 
+                                          alt="Gefangene Schildkröte" styleClass="card-image"/>
+                            <p>Haie, Mantarochen, Meeresschildkröten, Delfine, Wale und Seevögel verfangen sich in Geisternetzen. 
+                            Viele Tiere bleiben über lange Zeit gefangen und werden dadurch lebensbedrohlich verletzt oder getötet.</p>
                             <ul class="impact-list">
-                                <li>Tiere verfangen sich darin</li>
-                                <li>Zerstörung von Korallenriffen</li>
-                                <li>Plastikverschmutzung der Meere</li>
+                                <li>Verminderte Nahrungsaufnahme durch Mikroplastik</li>
+                                <li>Fruchtbarkeits- und Verhaltensprobleme</li>
+                                <li>Verletzungen durch Verfangen in Netzen</li>
+                                <li>Tod durch Strangulation oder Erschöpfung</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3>Meldende Person</h3>
+                        <h3>Ökosystem-Störungen</h3>
                         <div class="card-content">
-                            <div class="help-icon">
-                                <i class="pi pi-eye" style="font-size: 2.5rem; color: #74b9ff;"></i>
+                            <h:graphicImage library="images" name="coral-destruction.jpg" 
+                                          alt="Zerstörte Korallenriffe" styleClass="card-image"/>
+                            <p>Geisternetze zerstören Korallenriffe und andere Meereslebensräume. Als Transportmittel für 
+                            Mikroorganismen fördern sie die Verbreitung invasiver Arten und bringen Ökosysteme aus dem Gleichgewicht.</p>
+                            <div class="ecosystem-impact">
+                                <div class="impact-item">
+                                    <i class="pi pi-ban"></i>
+                                    <span>Korallenriff-Zerstörung</span>
+                                </div>
+                                <div class="impact-item">
+                                    <i class="pi pi-globe"></i>
+                                    <span>Invasive Arten-Verbreitung</span>
+                                </div>
                             </div>
-                            <p>Du meldest ein Geisternetz mit Standort und ggf. Foto.</p>
-                            <p:commandButton value="Geisternetz melden" 
-                                           icon="pi pi-camera" 
-                                           styleClass="p-button-outlined help-btn"/>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3>Bergende Person</h3>
+                        <h3>Wirtschaftliche Folgen</h3>
                         <div class="card-content">
-                            <div class="help-icon">
-                                <i class="pi pi-wrench" style="font-size: 2.5rem; color: #74b9ff;"></i>
+                            <h:graphicImage library="images" name="economic-impact.jpg" 
+                                          alt="Wirtschaftliche Auswirkungen" styleClass="card-image"/>
+                            <p>Gesunde Meeresökosysteme sind essentiell für die globale Fischerei und den Tourismus. 
+                            Geisternetze gefährden die Schifffahrtssicherheit und verursachen hohe Kosten für Bergungs- und Reinigungseinsätze.</p>
+                            <div class="economic-stats">
+                                
                             </div>
-                            <p>Du hilfst aktiv bei der Bergung von Geisternetzen mit.</p>
-                            <p:commandButton value="Bergung unterstützen" 
-                                           icon="pi pi-users" 
-                                           styleClass="p-button-outlined help-btn"/>
                         </div>
                     </div>
 
-                    <div class="info-card image-card">
+                    <div class="info-card">
                         <h3>Bergungsaktion</h3>
                         <div class="card-content">
                             <h:graphicImage library="images" name="rescue-mission.jpg" 
                                           alt="Bergungsaktion" styleClass="card-image"/>
-                        </div>
-                    </div>
-
-                    <div class="info-card image-card">
-                        <h3>Betroffene Tiere</h3>
-                        <div class="card-content">
-                            <h:graphicImage library="images" name="trapped-turtle.jpg" 
-                                          alt="Gefangene Schildkröte" styleClass="card-image"/>
+                            <p>Professionelle Bergungsaktionen erfordern spezialisierte Ausrüstung und geschulte Taucher. 
+                            Jedes geborgene Netz rettet unzählige Meerestiere und verhindert weitere Umweltschäden.</p>
+                            <div class="rescue-benefits">
+                                <span class="benefit-tag">Tierleben retten,</span>
+                                <span class="benefit-tag">Mikroplastik reduzieren,</span>
+                                <span class="benefit-tag">Ökosysteme schützen</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+                <!-- Action Section -->
+                <div class="action-section">
+                    <div class="section-header">
+                        <h2>Wie Du helfen kannst</h2>
+                        <p class="section-description">
+                            Systematisches Vorgehen ist erforderlich, um diesem alarmierenden Trend entgegenzuwirken. 
+                            Werde Teil der Lösung!
+                        </p>
+                    </div>
+
+                    <div class="action-grid">
+                           <a class="action-card reporter" href="/ghostNet/register.xhtml">
+
+                            <div class="action-icon">
+                                <i class="pi pi-eye"></i>
+                            </div>
+                            <h3>Meldende Person</h3>
+                            <p>Du meldest ein Geisternetz mit genauem Standort und Foto. Deine Meldung ermöglicht 
+                            gezielte Bergungsaktionen und trägt zur systematischen Erfassung bei.</p>
+                            <div class="action-steps">
+                                <div class="step">1. Geisternetz entdecken</div>
+                                <div class="step">2. Standort dokumentieren</div>
+                                <div class="step">3. Foto aufnehmen</div>
+                                <div class="step">4. Über Shea Sepherd melden</div>
+                            </div>
+                            <p:commandButton value="Geisternetz melden" 
+                                           action="/register.xhtml?faces-redirect=true"
+                                           icon="pi pi-camera" 
+                                           styleClass="p-button-raised action-btn reporter-btn"/>
+                        </a>
+
+                        <a class="action-card rescuer" href="/ghostNet/register.xhtml">
+                            <div class="action-icon">
+                                <i class="pi pi-wrench"></i>
+                            </div>
+                            <h3>Bergende Person</h3>
+                            <p>Du hilfst aktiv bei der Bergung von Geisternetzen mit. Ob als Taucher, Bootsführer 
+                            oder Logistik-Unterstützer - jeder Beitrag zählt im Kampf gegen die Meeresverschmutzung.</p>
+                            <div class="action-steps">
+                                <div class="step">1. Für Bergung registrieren</div>
+                                <div class="step">2. Qualifikationen angeben</div>
+                                <div class="step">3. Bei Aktionen teilnehmen</div>
+                                <div class="step">4. Netze sicher bergen</div>
+                            </div>
+                            <p:commandButton value="Bergung unterstützen" 
+                                           icon="pi pi-users" 
+                                            action="/register.xhtml?faces-redirect=true"
+                                           styleClass="p-button-raised action-btn rescuer-btn"/>
+                        </a>
+                    </div>
+                </div>
+
+              
             </div>
         </div>
     </h:form>

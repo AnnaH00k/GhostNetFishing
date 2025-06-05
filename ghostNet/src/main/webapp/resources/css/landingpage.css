@@ -18,7 +18,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--secondary-bg);
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--accent-bg) 100%);
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
@@ -32,7 +32,6 @@ body {
 
 .hero-section {
     height: 60vh;
-    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--accent-bg) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +46,6 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 0%, rgba(116, 185, 255, 0.1) 50%, transparent 100%);
 }
 
 .hero-overlay {
@@ -92,7 +90,6 @@ body {
 
 .main-section {
     padding: 3rem 0 2rem 0;
-    background: var(--secondary-bg);
 }
 
 .info-grid {
@@ -110,15 +107,13 @@ body {
     padding: 1.5rem;
     text-align: center;
     transition: all 0.3s ease;
-    height: 320px;
+    height: full;
     display: flex;
     flex-direction: column;
+    cursor: default;
 }
 
-.info-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
-}
+
 
 .info-card h3 {
     font-size: 1.2rem;
@@ -283,5 +278,266 @@ body {
     
     .card-image {
         max-height: 100px;
+    }
+}
+
+
+
+/* Action Section Styles */
+.action-section {
+    margin-top: 4rem;
+    padding: 3rem 0;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.section-header h2 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #74b9ff, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.action-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+        text-decoration: none;
+    
+    
+}
+
+.action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(116, 185, 255, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-color);
+    box-shadow: 0 12px 30px rgba(116, 185, 255, 0.2);
+}
+
+.action-card:hover::before {
+    opacity: 1;
+}
+
+.action-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem auto;
+    background: linear-gradient(135deg, var(--accent-color), #4ecdc4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.action-card:hover .action-icon {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(116, 185, 255, 0.4);
+}
+
+.action-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+}
+
+.action-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.action-steps {
+    margin: 1.5rem 0;
+    position: relative;
+    z-index: 2;
+}
+
+.step {
+    background: rgba(116, 185, 255, 0.1);
+    border: 1px solid rgba(116, 185, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.step::before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.action-steps {
+    counter-reset: step-counter;
+}
+
+
+
+.action-btn {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+    z-index: 2;
+}
+
+.reporter-btn {
+    background: linear-gradient(135deg, #74b9ff, #0984e3) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.reporter-btn:hover {
+    background: linear-gradient(135deg, #0984e3, #74b9ff) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(116, 185, 255, 0.4);
+}
+
+.rescuer-btn {
+    background: linear-gradient(135deg, #4ecdc4, #00b894) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.rescuer-btn:hover {
+    background: linear-gradient(135deg, #00b894, #4ecdc4) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+}
+
+.reporter {
+    border-left: 4px solid #74b9ff;
+}
+
+.rescuer {
+    border-left: 4px solid #4ecdc4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .action-section {
+        margin-top: 3rem;
+        padding: 2rem 1rem;
+    }
+    
+    .action-card {
+        padding: 1.5rem;
+    }
+    
+    .action-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .section-header {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-card {
+        padding: 1rem;
+    }
+    
+    .action-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .step {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
     }
 }

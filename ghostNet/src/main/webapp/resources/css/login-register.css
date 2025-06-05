@@ -1,0 +1,293 @@
+/* CSS Variables for consistent theming */
+:root {
+    --primary-bg: #0f1419;
+    --secondary-bg: #193149;
+    --accent-bg: #1e2832;
+    --text-primary: #D0DFEF;
+    --text-secondary: #9ca3af;
+    --accent-color: #74b9ff;
+    --border-color: rgba(208, 223, 239, 0.1);
+    --card-bg: rgba(25, 49, 73, 0.6);
+    --error-color: #ff6b6b;
+    --success-color: #51cf66;
+    --warning-color: #ffd43b;
+}
+
+/* Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--accent-bg) 100%);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    line-height: 1.4;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Container */
+.form-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+}
+
+.form-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Styles */
+.auth-form {
+    width: 100%;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 1rem;
+}
+
+/* Form Labels */
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.5px;
+}
+
+/* Form Inputs */
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Select Menu Specific Styles */
+.form-select {
+    cursor: pointer;
+}
+
+.form-select option {
+    background: var(--secondary-bg);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
+/* Error Messages */
+.error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.2rem;
+    display: block;
+    text-shadow: none;
+}
+
+.error-message {
+    text-align: center;
+    margin: 1rem 0;
+    min-height: 1rem;
+}
+
+/* Button Styles */
+.button-group {
+    text-align: center;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 100px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color), #0984e3);
+    color: white;
+    box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0984e3, var(--accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(116, 185, 255, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #5a6268, #6c757d);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom scrollbar for webkit browsers */
+.form-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.form-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+    background: #0984e3;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 0.5rem;
+    }
+    
+    .page-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .form-container {
+        padding: 1.2rem;
+        max-height: calc(100vh - 2rem);
+    }
+    
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.2rem;
+    }
+    
+    .form-container {
+        padding: 1rem;
+        max-height: calc(100vh - 1rem);
+    }
+    
+    .form-input,
+    .form-select {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .input-group {
+        margin-bottom: 0.8rem;
+    }
+}
+
+/* Animation for form entrance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Focus ring for accessibility */
+.form-input:focus-visible,
+.form-select:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}

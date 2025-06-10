@@ -32,8 +32,8 @@ public class RegisterController implements Serializable {
             personenListe.personHinzufuegen();
             
             // Den neu registrierten Nutzer als aktuellen Nutzer setzen
-            Person neuerNutzer = personenListe.getNutzer().get(personenListe.getNutzer().size() - 1);
-            personenListe.setAktuelleIndex(personenListe.getNutzer().indexOf(neuerNutzer));
+            Person neuerNutzer = personenListe.getPersonen().get(personenListe.getPersonen().size() - 1);
+            personenListe.setAktuelleIndex(personenListe.getPersonen().indexOf(neuerNutzer));
             
             // Erfolgreiche Registrierung - direkt zum Dashboard weiterleiten
             return "dashboard.xhtml?faces-redirect=true";
@@ -122,7 +122,7 @@ public class RegisterController implements Serializable {
     }
     
     private boolean nameExistiertBereits(String name) {
-        return personenListe.getNutzer().stream()
+        return personenListe.getPersonen().stream()
             .anyMatch(person -> person.getName().equals(name));
     }
     

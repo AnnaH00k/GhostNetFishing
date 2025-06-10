@@ -1,5 +1,4 @@
 import java.io.Serializable;
-
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -9,7 +8,8 @@ import jakarta.inject.Named;
 public class LoginController implements Serializable {
 
     private static final long serialVersionUID = 1L;
-	private String benutzernameEingabe;
+
+    private String benutzernameEingabe;
     private String passwortEingabe;
     private String fehlermeldung;
 
@@ -17,10 +17,10 @@ public class LoginController implements Serializable {
     private PersonenListe personenListe;
 
     public String login() {
-        for (Person p : personenListe.getNutzer()) {
+        for (Person p : personenListe.getPersonen()) {
             if (p.getName().equals(benutzernameEingabe)) {
                 if (p.getPasswort().equals(passwortEingabe)) {
-                    personenListe.setAktuelleIndex(personenListe.getNutzer().indexOf(p));
+                    personenListe.setAktuelleIndex(personenListe.getPersonen().indexOf(p));
                     return "dashboard.xhtml?faces-redirect=true";
                 } else {
                     fehlermeldung = "Falsches Passwort.";
@@ -32,7 +32,6 @@ public class LoginController implements Serializable {
         return null;
     }
 
-    // Getter & Setter
     public String getBenutzernameEingabe() {
         return benutzernameEingabe;
     }
@@ -56,10 +55,8 @@ public class LoginController implements Serializable {
     public void setFehlermeldung(String fehlermeldung) {
         this.fehlermeldung = fehlermeldung;
     }
-    
+
     public Person getAktuellerNutzer() {
         return personenListe.getAktuellerNutzer();
     }
-    
-    
 }

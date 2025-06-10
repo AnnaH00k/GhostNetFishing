@@ -23,8 +23,8 @@
             <h3>Übersicht über alle Nutzer</h3>
 
             <h:form id="nutzerForm">
-                <p:dataTable id="nutzerTabelle" var="person" value="#{personenListe.nutzer}" 
-                             stripedRows="true" responsiveLayout="scroll"
+                <p:dataTable id="nutzerTabelle" var="person" value="#{personenListe.personen}" 
+                             lazy="false" stripedRows="true" responsiveLayout="scroll"
                              rowKey="#{person.nr}" styleClass="ui-datatable-sm">
 
                     <f:facet name="header">

@@ -13,6 +13,13 @@
     
 </h:head>
 
+
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+    <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+    <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no ui-button-flat ui-button-secondary" icon="pi pi-times" />
+</p:confirmDialog>
+
+
 <h:body >
 
     <p:outputPanel styleClass="ui-fluid">
@@ -30,19 +37,65 @@
                     <f:facet name="header">
                         <p:panelGrid columns="6" layout="grid" styleClass="ui-panelgrid-blank" 
                                      columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2">
-                            <p:inputText value="#{personenListe.neuePerson.name}" placeholder="Name" />
-                            <p:inputText value="#{personenListe.neuePerson.telefonnummer}" placeholder="Telefonnummer" />
-                            <p:inputText value="#{personenListe.neuePerson.bild}" placeholder="Bild-URL" />
-                            <p:selectOneMenu value="#{personenListe.neuePerson.rollenTyp}">
-                                <f:selectItems value="#{personenListe.rollenTypen}" var="typ" itemValue="#{typ}" itemLabel="#{typ}" />
-                            </p:selectOneMenu>
-                            <p:inputText value="#{personenListe.neuePerson.passwort}" placeholder="Passwort" />
-                            
+                        	<p:inputText 
+		                        id="name" 
+		                        placeholder="Name"
+		                        value="#{personenListe.neuePerson.name}" 
+		                        required="true"
+		                        requiredMessage="Name ist ein Pflichtfeld."
+		                        />
+		                        
+		                    <p:selectOneMenu 
+		                        id="rollentyp" 
+		                        value="#{personenListe.neuePerson.rollenTyp}" 
+		                        required="true"
+		                        requiredMessage="Bitte wählen Sie eine Rolle aus."
+		                        class="form-select">
+		                        <f:selectItem itemLabel="Bitte wählen..." itemValue="" />
+		                        <f:selectItems 
+		                            value="#{personenListe.rollenTypen}" 
+		                            var="rolle"
+		                            itemLabel="#{rolle}" 
+		                            itemValue="#{rolle}" />
+		                    </p:selectOneMenu>
+		                    
+		                    <p:password 
+		                        id="passwort" 
+		                        value="#{personenListe.neuePerson.passwort}" 
+		                        required="true"
+		                        requiredMessage="Passwort ist ein Pflichtfeld."
+		                        class="form-input"
+		                        placeholder="Passwot" />
+     					    <p:password 
+		                        id="passwortBestaetigung" 
+		                        value="#{registerController.passwortBestaetigung}"
+		                        required="true"
+		                        requiredMessage="Passwort-Bestätigung ist ein Pflichtfeld."
+		                        class="form-input"
+		                        placeholder="passwort wdh." />
+		                        
+		                     <p:inputText 
+		                        id="telefonnummer" 
+		                        value="#{personenListe.neuePerson.telefonnummer}"
+		                        class="form-input" 
+		                        placeholder="Telefonnummer"/>
+		                      <p:inputText 
+		                        id="bild" 
+		                        value="#{personenListe.neuePerson.bild}"
+		                        class="form-input"
+		                        placeholder="Bild-URL" />                
+                                                    
                             <p:commandButton value="Hinzufügen" icon="pi pi-plus"
-                                             action="#{personenListe.personHinzufuegen}"
+                        					 action="#{registerController.registrieren}"
                                              update="nutzerTabelle"
                                              styleClass="ui-button-raised ui-button-secondary" />
                         </p:panelGrid>
+                        
+                           <div class="error-message">
+				                    <h:outputText value="#{registerController.fehlermeldung}" 
+				                                  styleClass="error" 
+				                                  rendered="#{not empty registerController.fehlermeldung}" />
+				                </div>
                     </f:facet>
 
                     <p:column headerText="Nr">
@@ -69,50 +122,134 @@
                      <p:column headerText="Passwort">
                         <h:outputText value="#{person.passwort}" />
                     </p:column>
+                    
+				<!-- Replace your current delete column with this simpler version for testing -->
+						<p:column headerText="Löschen">
+						    <!-- Simple button without confirmation - just for testing -->
+						    <p:commandButton value="Löschen" 
+						                     action="#{personenController.removePerson(person)}"
+						                     update="nutzerTabelle"
+						                     styleClass="ui-button-danger"
+						                     ajax="true"
+						                     process="@this" >
+						    <p:confirm message="Sind Sie sicher, dass Sie #{person.name} löschen möchten?" 
+			                   header="Person löschen" 
+			                   severity="alert" 
+			                   icon="pi pi-exclamation-triangle" />
+			                </p:commandButton>
+						</p:column>
 
                 </p:dataTable>
             </h:form>
         </p:card>
+        
+        
+<div style="height: 40px;"></div>
 
-        <!-- Geisternetz Tabelle -->
+
         <p:card>
-            <f:facet name="title">Geisternetz Tabelle</f:facet>
+            <f:facet name="title">Geisternetze</f:facet>
             <h3>Übersicht über alle Geisternetze</h3>
 
             <h:form id="geisternetzForm">
-                <p:dataTable id="geisternetzTabelle" var="geisternetz" value="#{geisternetzListe.fundstücke}" 
-                             stripedRows="true" responsiveLayout="scroll"
+                <p:dataTable id="geisternetzTabelle" var="geisternetz" value="#{geisternetzListe.geisternetze}" 
+                             lazy="false" stripedRows="true" responsiveLayout="scroll"
                              rowKey="#{geisternetz.nr}" styleClass="ui-datatable-sm">
 
                     <f:facet name="header">
-                    
                         <p:panelGrid columns="6" layout="grid" styleClass="ui-panelgrid-blank" 
                                      columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2">
-                            <h:outputText value="Neues Geisternetz:" styleClass="ui-text-bold" />
-                           
-                            <p:inputText value="#{geisternetzListe.neuesGeisternetz.groeße}" placeholder="Größe" />
-                            <h:outputText value="Status:" styleClass="ui-text-bold" />
+                                     
+                        	  <h:outputText value="Neues Geisternetz:" styleClass="ui-text-bold" />
+                        	
+                        	  <p:inputText 
+		                        id="größe" 
+		                        value="#{geisternetzListe.neuesGeisternetz.groeße}"
+		                        class="form-input" 
+		                        placeholder="Größe"
+		                        required="true"
+		                        requiredMessage="Bitte geben Sie eine Größe an."/>
+                        	
+                        	
+		                    <h:outputText value="Status:" styleClass="ui-text-bold" />
+		                    <p:selectOneMenu 
+		                        id="netzstatus" 
+		                        value="#{geisternetzListe.neuesGeisternetz.netzStatus}" 
+		                        required="true"
+		                        requiredMessage="Bitte wählen Sie einen Status aus."
+		                        class="form-select">
+		                        <f:selectItem itemLabel="Bitte wählen..." itemValue="" />
+		                        <f:selectItems 
+		                            value="#{geisternetzListe.netzStatus}" 
+		                            var="status"
+		                            itemLabel="#{status}" 
+		                            itemValue="#{status}" />
+		                    </p:selectOneMenu>
+		                    
+		                    <p:inputText 
+		                        id="bild" 
+		                        value="#{geisternetzListe.neuesGeisternetz.bild}"
+		                        class="form-input"
+		                        placeholder="Bild-URL" />   
+		                    
+		                    <p:inputText 
+		                        id="name" 
+		                        placeholder="Standort"
+		                        value="#{geisternetzListe.neuesGeisternetz.standort}"
+		                        />
+		                    
+		                   <h:outputText value="Breitengrad:" styleClass="ui-text-bold" />
+                           <p:inputNumber 
+                              id="breitengrad" 
+                              value="#{geisternetzListe.neuesGeisternetz.lat}" 
+                              placeholder="Breitengrad"
+                              required="true"
+		                      requiredMessage="Bitte geben Sie einen Breitengrad an."/>
                             
-                            <p:selectOneMenu value="#{geisternetzListe.neuesGeisternetz.netzStatus}">
-                                <f:selectItems value="#{geisternetzListe.netzStatus}" var="typ" itemValue="#{typ}" itemLabel="#{typ}" />
-                            </p:selectOneMenu>
-                            <p:inputText value="#{geisternetzListe.neuesGeisternetz.bild}" placeholder="Bild-URL" />
-                            <p:inputText value="#{geisternetzListe.neuesGeisternetz.standort}" placeholder="Standort" />
                             
-                             <h:outputText value="Breitengrad:" styleClass="ui-text-bold" />
-                            <p:inputNumber value="#{geisternetzListe.neuesGeisternetz.lat}" placeholder="Breitengrad"/>
                             <h:outputText value="Längengrad:" styleClass="ui-text-bold" />
-                            <p:inputNumber value="#{geisternetzListe.neuesGeisternetz.lng}" placeholder="Längengrad"/>
-                              <p:commandButton value="Hinzufügen" icon="pi pi-plus"
-                                             action="#{geisternetzListe.geisternetzHinzufuegen}"
+                            <p:inputNumber 
+                              id="längengrad" 
+                              value="#{geisternetzListe.neuesGeisternetz.lng}" 
+                              placeholder="Längengrad"
+                              required="true"
+		                      requiredMessage="Bitte geben Sie einen Längengrad an."/>
+                                                    
+                             <p:commandButton value="Hinzufügen" icon="pi pi-plus"
+                                             action="#{geisternetzErstellungsController.erstellung}"
                                              update="geisternetzTabelle"
                                              styleClass="ui-button-raised ui-button-secondary" />
+                                             
+                                             
+                                                <div class="error-message">
+				                    <h:outputText value="#{geisternetzErstellungsController.fehlermeldung}" 
+				                                  styleClass="error" 
+				                                  rendered="#{not empty geisternetzErstellungsController.fehlermeldung}" />
+				            </div>
                         </p:panelGrid>
-                      
+                        
+                           
+                        
+				                
+				            
+				           
                     </f:facet>
 
                     <p:column headerText="Nr">
                         <h:outputText value="#{geisternetz.nr}" />
+                    </p:column>
+
+                    <p:column headerText="Größe">
+                        <h:outputText value="#{geisternetz.groeße}" />
+                    </p:column>
+
+                    <p:column headerText="Status">
+                        <h:outputText value="#{geisternetz.netzStatus}" />
+                    </p:column>
+
+                    <p:column headerText="Bild">
+                        <h:graphicImage value="#{geisternetz.bild}" width="100" height="100"
+                                        style="object-fit: contain; border-radius: 5px;" />
                     </p:column>
 
                     <p:column headerText="Standort">
@@ -126,25 +263,31 @@
                      <p:column headerText="Längengrad">
                         <h:outputText value="#{geisternetz.lng}" />
                     </p:column>
-
-                    <p:column headerText="Größe">
-                        <h:outputText value="#{geisternetz.groeße}" />
-                    </p:column>
-
-                    <p:column headerText="Status">
-                        <h:outputText value="#{geisternetz.netzStatus}" />
-                    </p:column>
-
-                    <p:column headerText="Bild">
-                        <p:graphicImage value="#{geisternetz.bild}" width="100" height="100"
-                                        style="object-fit: contain; border-radius: 5px;" />
-                    </p:column>
+                    
+				<!-- Replace your current delete column with this simpler version for testing -->
+						<p:column headerText="Löschen">
+						    <!-- Simple button without confirmation - just for testing -->
+						    <p:commandButton value="Löschen" 
+						                     action="#{geisternetzController.removeGeisternetz(geisternetz)}"
+						                     update="geisternetzTabelle"
+						                     styleClass="ui-button-danger"
+						                     ajax="true"
+						                     process="@this" >
+						    <p:confirm message="Sind Sie sicher, dass Sie #{geisternetz.nr} löschen möchten?" 
+			                   header="Geisternetz löschen" 
+			                   severity="alert" 
+			                   icon="pi pi-exclamation-triangle" />
+			                </p:commandButton>
+						</p:column>
 
                 </p:dataTable>
             </h:form>
         </p:card>
+        
+
 
     </p:outputPanel>
+    
 
 </h:body>
 </html>

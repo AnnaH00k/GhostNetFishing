@@ -26,7 +26,7 @@ public class GeisternetzMapView implements Serializable {
     public void init() {
         geisternetzModel = new DefaultMapModel();
 
-        for (Geisternetz netz : geisternetzListe.getFundstücke()) {
+        for (Geisternetz netz : geisternetzListe.getGeisternetze()) {
             LatLng koordinaten = new LatLng(netz.getLat(), netz.getLng());
 
             String info = "<b>Ort:</b> " + netz.getStandort() +

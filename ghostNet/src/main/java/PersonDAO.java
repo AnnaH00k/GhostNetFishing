@@ -54,13 +54,13 @@ public class PersonDAO {
     // Base users data
     static final List<Person> baseUsers = Arrays.asList(
         new Person("Liane Herbert", "0874168602",
-            "https://cdn.pixabay.com/photo/2017/08/04/11/49/person-2579938_1280.jpg",
-            RollenTyp.KEINE, "passwort"),
+            "https://cdn.pixabay.com/photo/2017/08/04/11/49/person-2579938_1280.jpg", "passwort",
+            RollenTyp.KEINE),
         new Person("Hugo Müller", "7250412052",
-            "https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg",
-            RollenTyp.MELDEND, "passwort"),
+            "https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg", "passwort",
+            RollenTyp.MELDEND),
         new Person("MauMau Moe", "0000000000",
-            "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", RollenTyp.BERGEND, "passwort")
+            "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", "passwort", RollenTyp.BERGEND)
     );
 
     public long getPersonCount() {
@@ -101,9 +101,40 @@ public class PersonDAO {
     }
 
     public void removePerson(Person person) {
-        EntityTransaction t = getAndBeginTransaction();
-        entityManager.remove(entityManager.contains(person) ? person : entityManager.merge(person));
-        t.commit();
+        System.err.println("===== DAO REMOVE PERSON CALLED =====");
+        System.err.println("Person to remove: " + person.getName() + " (ID: " + person.getNr() + ")");
+        
+        try {
+            EntityTransaction t = getAndBeginTransaction();
+            System.err.println("Transaction started");
+            
+            // Check if person is managed by this EntityManager
+            boolean isManaged = entityManager.contains(person);
+            System.err.println("Person is managed: " + isManaged);
+            
+            Person managedPerson;
+            if (isManaged) {
+                managedPerson = person;
+            } else {
+                System.err.println("Person not managed, merging first...");
+                managedPerson = entityManager.merge(person);
+                System.err.println("Person merged, new ID: " + managedPerson.getNr());
+            }
+            
+            System.err.println("About to remove person...");
+            entityManager.remove(managedPerson);
+            System.err.println("Person removed from EntityManager");
+            
+            System.err.println("Committing transaction...");
+            t.commit();
+            System.err.println("Transaction committed successfully");
+            
+        } catch (Exception e) {
+            System.err.println("ERROR in removePerson: " + e.getMessage());
+            e.printStackTrace();
+            throw e; // Re-throw to see the error in the controller
+        }
+        System.err.println("===== DAO REMOVE PERSON END =====");
     }
 
     public static void main(String[] args) {

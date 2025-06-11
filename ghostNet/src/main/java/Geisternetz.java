@@ -1,24 +1,31 @@
-public class Geisternetz
-{
+import java.io.Serializable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Geisternetz implements Serializable {
+	private static final long serialVersionUID =1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int nr;
 
     private String standort;
-    
     private double lat; // Breitengrad
     private double lng; // Längengrad
-
-
     private String groeße;
-
-    private String status;
-    
     private String bild;
-    
+    @Enumerated(EnumType.STRING)
     private NetzStatus netzStatus;
+    
+    public Geisternetz() {}
 
-    public Geisternetz(int nr, String standort, double lat, double lng, String groeße, NetzStatus netzStatus, String bild)
+    public Geisternetz( String standort, double lat, double lng, String groeße, NetzStatus netzStatus, String bild)
     {
-        this.setNr(nr);
         this.setStandort(standort);
         this.lat = lat;
         this.lng = lng;
@@ -27,39 +34,54 @@ public class Geisternetz
         this.setBild(bild);
 
     }
+    
+    
 
 	public int getNr() {
 		return nr;
 	}
 
-	public void setNr(int nr) {
-		this.nr = nr;
-	}
+	
+	
+	
+	
 
 	public String getStandort() {
 		return standort;
 	}
 	
-	public double getLat() {
-		return lat;
-	}
-	
-	public double getLng() {
-		return lng;
-	}
-
 	public void setStandort(String standort) {
 		this.standort = standort;
+	}
+	
+	
+	
+	
+	
+	public double getLat() {
+		return lat;
 	}
 	
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
 	
+	
+	
+	
+	public double getLng() {
+		return lng;
+	}
+	
 	public void setLng(double lng) {
 		this.lng = lng;
 	}
 
+	
+	
+	
+	
+	
 	public String getGroeße() {
 		return groeße;
 	}
@@ -67,6 +89,10 @@ public class Geisternetz
 	public void setGroeße(String groeße) {
 		this.groeße = groeße;
 	}
+	
+	
+	
+	
 
 	
 	public NetzStatus getNetzStatus() {
@@ -76,6 +102,11 @@ public class Geisternetz
 	public void setNetzStatus(NetzStatus netzStatus) {
 	    this.netzStatus = netzStatus;
 	}
+	
+	
+	
+	
+	
 
 	public String getBild() {
 		return bild;

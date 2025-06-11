@@ -18,10 +18,10 @@ public class PersonenListe implements Serializable {
 
     @Inject
     private PersonDAO personDAO;
-    
+
     @PostConstruct
     public void init() {
-    	personDAO.getPersonCount();
+        personDAO.getPersonCount();
     }
 
     public List<Person> getPersonen() {
@@ -32,6 +32,12 @@ public class PersonenListe implements Serializable {
             System.err.println("Anzahl geladener Personen: " + personen.size());
         }
         return personen;
+    }
+    
+    
+    
+    public List<String> getAlleBilder() {
+        return personDAO.getAlleBilder();
     }
 
 

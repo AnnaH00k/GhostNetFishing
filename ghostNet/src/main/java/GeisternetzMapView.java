@@ -29,11 +29,21 @@ public class GeisternetzMapView implements Serializable {
         for (Geisternetz netz : geisternetzListe.getGeisternetze()) {
             LatLng koordinaten = new LatLng(netz.getLat(), netz.getLng());
 
-            String info = "<b>Ort:</b> " + netz.getStandort() +
-                          "<br/><b>Größe:</b> " + netz.getGroeße() +
-                          "<br/><b>Status:</b> " + netz.getNetzStatus();
+            String info =
+                "<b>Nr:</b> " + netz.getNr() + "<br>" +
+                "<b>Größe:</b> " + netz.getGroeße() + "<br>" +
+                "<b>Status:</b> " + netz.getNetzStatus() + "<br>" +
+                "<b>Standort:</b> " + netz.getStandort() + "<br>" +
+                "<b>Breitengrad:</b> " + netz.getLat() + "<br>" +
+                "<b>Längengrad:</b> " + netz.getLng() + "<br>"+ "<br>";
+            
+            // Bild hinzufügen, falls vorhanden
+            if (netz.getBild() != null && !netz.getBild().isEmpty()) {
+                info += "<img src='" + netz.getBild() + "' style='max-width: 200px; max-height: 150px;' alt='Geisternetz Bild'>";
+            }
 
-            Marker marker = new Marker(koordinaten, "Geisternetz #" + netz.getNr(), info);
+            // Titel sollte die Nummer sein, nicht das Bild
+            Marker marker = new Marker(koordinaten, "" , info);
             geisternetzModel.addOverlay(marker);
         }
     }

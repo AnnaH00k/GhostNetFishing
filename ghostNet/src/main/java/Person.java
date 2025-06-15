@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +18,20 @@ public class Person implements Serializable {
     private String passwort; // Passwort sollte gehashed gespeichert werden (hier nur als Beispiel)
     @Enumerated(EnumType.STRING)
     private RollenTyp rollenTyp;
+    
+    
+    
+    @OneToMany(mappedBy = "melder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Meldung> geisternetzMeldungen = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "berger", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Bergung> bergungsAnmeldungen = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "melder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Verschollen> verschollenMeldungen = new ArrayList<>();
+    
+    
+    
 
 
     public Person() {}
@@ -26,6 +43,21 @@ public class Person implements Serializable {
         this.passwort = passwort;
         this.rollenTyp = rollenTyp;
     }
+    
+    
+    
+    
+    public List<Meldung> getGeisternetzMeldungen() { return geisternetzMeldungen; }
+    public void setGeisternetzMeldungen(List<Meldung> geisternetzMeldungen) { this.geisternetzMeldungen = geisternetzMeldungen; }
+    
+    public List<Bergung> getBergungsAnmeldungen() { return bergungsAnmeldungen; }
+    public void setBergungsAnmeldungen(List<Bergung> bergungsAnmeldungen) { this.bergungsAnmeldungen = bergungsAnmeldungen; }
+    
+    public List<Verschollen> getVerschollenMeldungen() { return verschollenMeldungen; }
+    public void setVerschollenMeldungen(List<Verschollen> verschollenMeldungen) { this.verschollenMeldungen = verschollenMeldungen; }
+    
+    
+    
     
     
     

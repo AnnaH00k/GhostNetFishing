@@ -6,12 +6,14 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private String benutzernameEingabe;
     private String passwortEingabe;
     private String fehlermeldung;
+    
+    private Person aktuellerNutzer;
+    private boolean eingeloggt = false;
 
     @Inject
     private PersonenListe personenListe;
@@ -20,7 +22,14 @@ public class LoginController implements Serializable {
         for (Person p : personenListe.getPersonen()) {
             if (p.getName().equals(benutzernameEingabe)) {
                 if (p.getPasswort().equals(passwortEingabe)) {
-                    personenListe.setAktuelleIndex(personenListe.getPersonen().indexOf(p));
+                	
+                	 this.aktuellerNutzer = p;
+                     this.eingeloggt = true;
+                     
+                     this.benutzernameEingabe = "";
+                     this.passwortEingabe = "";
+                     this.fehlermeldung = "";
+                     
                     return "dashboard.xhtml?faces-redirect=true";
                 } else {
                     fehlermeldung = "Falsches Passwort.";
@@ -31,6 +40,19 @@ public class LoginController implements Serializable {
         fehlermeldung = "Benutzername nicht gefunden.";
         return null;
     }
+    
+    public String logout() {
+        this.aktuellerNutzer = null;
+        this.eingeloggt = false;
+        this.benutzernameEingabe = "";
+        this.passwortEingabe = "";
+        this.fehlermeldung = "";
+        
+        
+        return "landingpage.xhtml?faces-redirect=true";
+    }
+    
+    
 
     public String getBenutzernameEingabe() {
         return benutzernameEingabe;
@@ -57,6 +79,26 @@ public class LoginController implements Serializable {
     }
 
     public Person getAktuellerNutzer() {
-        return personenListe.getAktuellerNutzer();
+        return aktuellerNutzer;
+    }
+    
+
+	
+	 public void setAktuellerNutzer(Person aktuellerNutzer) {
+	     this.aktuellerNutzer = aktuellerNutzer;
+	 }
+	
+	 public void setEingeloggt(boolean eingeloggt) {
+	     this.eingeloggt = eingeloggt;
+	 }
+	 
+ 
+ 
+    public boolean isEingeloggt() {
+        return eingeloggt;
+    }
+    
+    public boolean isNichtEingeloggt() {
+        return !eingeloggt;
     }
 }

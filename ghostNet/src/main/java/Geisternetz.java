@@ -1,11 +1,15 @@
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Geisternetz implements Serializable {
@@ -15,12 +19,27 @@ public class Geisternetz implements Serializable {
     private int nr;
 
     private String standort;
-    private double lat; // Breitengrad
-    private double lng; // Längengrad
+    private double lat; 
+    private double lng; 
     private String groeße;
     private String bild;
     @Enumerated(EnumType.STRING)
     private NetzStatus netzStatus;
+    
+    
+    
+    @OneToMany(mappedBy = "geisternetz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Meldung> meldungen = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "geisternetz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Bergung> bergungsAnmeldungen = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "geisternetz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Verschollen> verschollenMeldungen = new ArrayList<>();
+    
+    
+    
+    
     
     public Geisternetz() {}
 
@@ -36,13 +55,28 @@ public class Geisternetz implements Serializable {
     }
     
     
+    
+    // Getter und Setter für Beziehungen
+    public List<Meldung> getMeldungen() { return meldungen; }
+    public void setMeldungen(List<Meldung> meldungen) { this.meldungen = meldungen; }
+    
+    public List<Bergung> getBergungsAnmeldungen() { return bergungsAnmeldungen; }
+    public void setBergungsAnmeldungen(List<Bergung> bergungsAnmeldungen) { this.bergungsAnmeldungen = bergungsAnmeldungen; }
+    
+    public List<Verschollen> getVerschollenMeldungen() { return verschollenMeldungen; }
+    public void setVerschollenMeldungen(List<Verschollen> verschollenMeldungen) { this.verschollenMeldungen = verschollenMeldungen; }
+    
+    
+    
+    
+    
+    
+    
+    
 
 	public int getNr() {
 		return nr;
 	}
-
-	
-	
 	
 	
 
@@ -53,7 +87,6 @@ public class Geisternetz implements Serializable {
 	public void setStandort(String standort) {
 		this.standort = standort;
 	}
-	
 	
 	
 	

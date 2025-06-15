@@ -4,24 +4,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      
 
 <h:head>
     <title>Tabellen Übersicht</title>
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
-    
-    
 </h:head>
-
 
 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
     <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
     <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no ui-button-flat ui-button-secondary" icon="pi pi-times" />
 </p:confirmDialog>
 
-
-<h:body >
-
+<h:body>
     <p:outputPanel styleClass="ui-fluid">
 
         <!-- Nutzertabelle -->
@@ -123,29 +120,25 @@
                         <h:outputText value="#{person.passwort}" />
                     </p:column>
                     
-				<!-- Replace your current delete column with this simpler version for testing -->
-						<p:column headerText="Löschen">
-						    <!-- Simple button without confirmation - just for testing -->
-						    <p:commandButton value="Löschen" 
-						                     action="#{personenController.removePerson(person)}"
-						                     update="nutzerTabelle"
-						                     styleClass="ui-button-danger"
-						                     ajax="true"
-						                     process="@this" >
-						    <p:confirm message="Sind Sie sicher, dass Sie #{person.name} löschen möchten?" 
-			                   header="Person löschen" 
-			                   severity="alert" 
-			                   icon="pi pi-exclamation-triangle" />
-			                </p:commandButton>
-						</p:column>
+					<p:column headerText="Löschen">
+					    <p:commandButton value="Löschen" 
+					                     action="#{personenController.removePerson(person)}"
+					                     update="nutzerTabelle"
+					                     styleClass="ui-button-danger"
+					                     ajax="true"
+					                     process="@this" >
+					    <p:confirm message="Sind Sie sicher, dass Sie #{person.name} löschen möchten?" 
+		                   header="Person löschen" 
+		                   severity="alert" 
+		                   icon="pi pi-exclamation-triangle" />
+		                </p:commandButton>
+					</p:column>
 
                 </p:dataTable>
             </h:form>
         </p:card>
         
-        
-<div style="height: 40px;"></div>
-
+        <div style="height: 40px;"></div>
 
         <p:card>
             <f:facet name="title">Geisternetze</f:facet>
@@ -219,20 +212,13 @@
                                              action="#{geisternetzErstellungsController.erstellung}"
                                              update="geisternetzTabelle"
                                              styleClass="ui-button-raised ui-button-secondary" />
-                                             
-                                             
-                                                <div class="error-message">
-				                    <h:outputText value="#{geisternetzErstellungsController.fehlermeldung}" 
-				                                  styleClass="error" 
-				                                  rendered="#{not empty geisternetzErstellungsController.fehlermeldung}" />
-				            </div>
                         </p:panelGrid>
                         
-                           
-                        
-				                
-				            
-				           
+                        <div class="error-message">
+			                <h:outputText value="#{geisternetzErstellungsController.fehlermeldung}" 
+			                              styleClass="error" 
+			                              rendered="#{not empty geisternetzErstellungsController.fehlermeldung}" />
+			            </div>
                     </f:facet>
 
                     <p:column headerText="Nr">
@@ -256,38 +242,121 @@
                         <h:outputText value="#{geisternetz.standort}" />
                     </p:column>
                     
-                      <p:column headerText="Breitengrad">
+                    <p:column headerText="Breitengrad">
                         <h:outputText value="#{geisternetz.lat}" />
                     </p:column>
                     
-                     <p:column headerText="Längengrad">
+                    <p:column headerText="Längengrad">
                         <h:outputText value="#{geisternetz.lng}" />
                     </p:column>
                     
-				<!-- Replace your current delete column with this simpler version for testing -->
-						<p:column headerText="Löschen">
-						    <!-- Simple button without confirmation - just for testing -->
-						    <p:commandButton value="Löschen" 
-						                     action="#{geisternetzController.removeGeisternetz(geisternetz)}"
-						                     update="geisternetzTabelle"
-						                     styleClass="ui-button-danger"
-						                     ajax="true"
-						                     process="@this" >
-						    <p:confirm message="Sind Sie sicher, dass Sie #{geisternetz.nr} löschen möchten?" 
-			                   header="Geisternetz löschen" 
-			                   severity="alert" 
-			                   icon="pi pi-exclamation-triangle" />
-			                </p:commandButton>
-						</p:column>
+                    
+                    
+					<p:column headerText="Löschen">
+					    <p:commandButton value="Löschen" 
+					                     action="#{geisternetzController.removeGeisternetz(geisternetz)}"
+					                     update="geisternetzTabelle"
+					                     styleClass="ui-button-danger"
+					                     ajax="true"
+					                     process="@this" >
+					    <p:confirm message="Sind Sie sicher, dass Sie #{geisternetz.nr} löschen möchten?" 
+		                   header="Geisternetz löschen" 
+		                   severity="alert" 
+		                   icon="pi pi-exclamation-triangle" />
+		                </p:commandButton>
+					</p:column>
 
                 </p:dataTable>
             </h:form>
         </p:card>
         
+        <div style="height: 40px;"></div>
+        
+        <!-- Meldungstabelle -->
+        <p:card>
+            <f:facet name="title">Meldungen</f:facet>
+            <h3>Übersicht über alle Geisternetze</h3>
 
+            <h:form id="meldungForm">
+                <p:dataTable id="meldungTabelle" var="geisternetz"
+                             value="#{geisternetzListe.geisternetze}"
+                             lazy="false" stripedRows="true" responsiveLayout="scroll"
+                             rowKey="#{geisternetz.nr}" styleClass="ui-datatable-sm">
 
+                    <p:column headerText="Geisternetz ID">
+                        <h:outputText value="#{geisternetz.nr}" />
+                    </p:column>
+   					<p:column headerText="Personen ID">
+						 <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) != null}">
+	                            <h:outputText value="#{geisternetzListe.getErstenMelder(geisternetz).nr}" />
+	                        </ui:fragment>
+	                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) == null}">
+	                            <h:outputText value="Anonym" />
+	                        </ui:fragment>
+                     </p:column>
+                  
+
+                    <p:column headerText="Erster Melder">
+                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) != null}">
+                            <h:outputText value="#{geisternetzListe.getErstenMelder(geisternetz).name}" />
+                        </ui:fragment>
+                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) == null}">
+                            <h:outputText value="Anonym" />
+                        </ui:fragment>
+                    </p:column>
+
+                    <p:column headerText="Aktion">
+                        <p:commandButton icon="pi pi-search" title="Details anzeigen"
+                                         actionListener="#{meldungsController.ladeMeldungenZuGeisternetz(geisternetz)}"
+                                         update=":meldungDetailForm:meldungDetailTabelle"
+                                         oncomplete="PF('meldungDetailDialog').show()" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:card>
+
+       <!-- Dialog für Meldungsdetails -->
+<p:dialog id="meldungDetailDialog"
+          widgetVar="meldungDetailDialog"
+          modal="true" width="800" height="500"
+          header="Meldungsdetails" closable="true">
+
+    <h:form id="meldungDetailForm">
+        <p:dataTable id="meldungDetailTabelle"
+                     var="meldung"
+                     value="#{meldungsController.aktuelleGeisternetzMeldungen}"
+                     styleClass="ui-datatable-sm"
+                     emptyMessage="Keine Meldungen vorhanden">
+                     
+                     <h:outputText value="Anzahl Meldungen: #{meldungsController.aktuelleGeisternetzMeldungen.size()}" />
+                     
+
+            <p:column headerText="Meldedatum">
+               <h:outputText value="#{meldungsController.getFormatiertesDatum(meldung)}" />
+
+            </p:column>
+
+            <p:column headerText="Melder">
+                <ui:fragment rendered="#{!meldung.anonym and meldung.melder != null}">
+                    <h:outputText value="#{meldung.melder.name}" />
+                </ui:fragment>
+                <ui:fragment rendered="#{meldung.anonym or meldung.melder == null}">
+                    <h:outputText value="Anonym" />
+                </ui:fragment>
+            </p:column>
+
+            <p:column headerText="Telefon">
+                <h:outputText value="#{meldung.anonym or meldung.melder == null ? '-' : meldung.melder.telefonnummer}" />
+            </p:column>
+
+            <p:column headerText="Rolle">
+                <h:outputText value="#{meldung.anonym or meldung.melder == null ? '-' : meldung.melder.rollenTyp}" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</p:dialog>
+
+        
     </p:outputPanel>
-    
-
 </h:body>
 </html>

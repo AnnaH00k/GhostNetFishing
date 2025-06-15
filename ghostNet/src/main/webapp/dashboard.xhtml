@@ -1,96 +1,106 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Dashboard</title>
-     <link rel="stylesheet" type="text/css" href="resources/css/dashboard.css" />
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCvCDkYieuUBmMWon_mfLAfjuaeuosuqow&amp;sensor=false"></script>
+<title>Dashboard</title>
+<link rel="stylesheet" type="text/css" href="resources/css/dashboard.css" />
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCvCDkYieuUBmMWon_mfLAfjuaeuosuqow&amp;sensor=false"></script>
 </h:head>
 
-<h:body >
+<h:body>
 
+<!-- Content when user is logged in -->
+<h:form rendered="#{loginController.eingeloggt}" style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; top:0">
 
-<h:form style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; top:0">
+<h:commandLink action="profilBearbeiten.xhtml?faces-redirect=true" style="border: none; background: none;">
+<p:avatar size="xlarge" shape="circle" styleClass="shadow-4 cursor-pointer">
+<p:graphicImage value="#{loginController.aktuellerNutzer.bild}"
+style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+</p:avatar>
+</h:commandLink>
+<h1>Willkommen bei Shea Sepherd, #{loginController.aktuellerNutzer.name}!</h1>
+<p:button outcome="landingpage" icon="pi pi-info" style="margin:1rem; "/>
 
-    <h:commandLink action="profilBearbeiten.xhtml?faces-redirect=true" style="border: none; background: none;">
-        <p:avatar size="xlarge" shape="circle" styleClass="shadow-4 cursor-pointer">
-            <p:graphicImage value="#{loginController.aktuellerNutzer.bild}" 
-                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-        </p:avatar>
-    </h:commandLink>
-        <h1>Willkommen bei Shea Sepherd, #{loginController.aktuellerNutzer.name}!</h1>
-   	   <p:button outcome="landingpage" icon="pi pi-info" style="margin:1rem; "/>
-    
+<!-- Logout Button -->
+<p:commandButton value="Abmelden" 
+                 icon="pi pi-sign-out" 
+                 action="#{loginController.logout}" 
+                 styleClass="p-button-secondary"
+                 style="margin:1rem;"
+                 title="Ausloggen" />
+
 </h:form>
 
+<!-- Content when user is NOT logged in -->
+<h:form rendered="#{loginController.nichtEingeloggt}" style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
 
+<h1>Bitte melden Sie sich an</h1>
+<p style="font-size: 1.2rem; color: #666;">Sie müssen sich zuerst anmelden, um das Dashboard zu verwenden.</p>
 
+<p:button outcome="login" 
+          value="Zur Anmeldung" 
+          icon="pi pi-sign-in" 
+          styleClass="p-button-lg p-button-primary"
+          style="margin:1rem; padding: 1rem 2rem;" />
 
-            
-            
-    <h:form>
-        <div >
-            <p:gmap id="geisternetzMap"
-                    center="20.0,0.0"
-                    zoom="2"
-                    type="ROADMAP"
-                    model="#{geisternetzMapView.geisternetzModel}"
-                    style="width:100vw;height:70vh"
-                    widgetVar="gmap">
+</h:form>
 
-                <p:ajax event="overlaySelect"
-                        listener="#{geisternetzMapView.onMarkerSelect}"
-                        update="geisternetzInfoDialog"
-                        oncomplete="PF('infoDialog').show()" />
-            </p:gmap>
+<!-- Map and main content - only visible when logged in -->
+<h:form rendered="#{loginController.eingeloggt}">
+<div>
+<p:gmap id="geisternetzMap"
+center="20.0,0.0"
+zoom="2"
+type="ROADMAP"
+model="#{geisternetzMapView.geisternetzModel}"
+style="width:100vw;height:70vh"
+widgetVar="gmap">
 
-            <p:dialog header="Geisternetz-Information"
-                      widgetVar="infoDialog"
-                      id="geisternetzInfoDialog"
-                      modal="true"
-                      closable="true"
-                      draggable="false"
-                      resizable="false"
-                      width="350">
-               <h:outputText value="#{geisternetzMapView.selectedMarker.title}" /><br/>
-			   <h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
+<p:ajax event="overlaySelect"
+listener="#{geisternetzMapView.onMarkerSelect}"
+update="geisternetzInfoDialog"
+oncomplete="PF('infoDialog').show()" />
+</p:gmap>
 
-                
-            </p:dialog>
-        </div>
-    </h:form>
-    
-     <div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; bottom:0">
-	       	   <p:button outcome="melden" value="melden" />
-	           <p:button outcome="bergen" value="bergen" />
-	    </div>
-    
-    
-    
+<p:dialog header="Geisternetz-Information"
+widgetVar="infoDialog"
+id="geisternetzInfoDialog"
+modal="true"
+closable="true"
+draggable="false"
+resizable="false"
+width="350">
+<h:outputText value="#{geisternetzMapView.selectedMarker.title}" /><br/>
+<h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
 
-	<h:panelGroup rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
-	   
-	</h:panelGroup>
+</p:dialog>
+</div>
+</h:form>
 
+<!-- Bottom navigation - only visible when logged in -->
+<h:panelGroup rendered="#{loginController.eingeloggt}">
+<div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; bottom:0">
+<p:button outcome="melden" value="melden" />
+<p:button outcome="bergen" value="bergen" />
+</div>
+</h:panelGroup>
 
-    
+<!-- Role-based content - only visible when logged in -->
+<h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
 
-    <h:panelGroup rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'MELDEND'}">
-        <h2>Meldend-Dashboard</h2>
-        <p>Sie können Geisternetze melden.</p>
-    </h:panelGroup>
+</h:panelGroup>
 
-    <h:panelGroup rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
-        <h2>Bergend-Dashboard</h2>
-        <p>Sie können Geisternetze bergen.</p>
-    </h:panelGroup>
+<h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'MELDEND'}">
 
-    
+</h:panelGroup>
 
-  
+<h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
+
+</h:panelGroup>
+
 </h:body>
 </html>

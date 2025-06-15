@@ -22,6 +22,7 @@ body {
   align-items: center; 
   justify-content: center;
   margin: 2rem;
+  gap: 2rem;
 
 }
 
@@ -31,6 +32,8 @@ error {
 	color: darkred;
 	font-variant: bold;
 }
+
+
 
 
 

@@ -10,11 +10,9 @@ import java.util.List;
 @Named
 @ApplicationScoped
 public class PersonenListe implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private Person neuePerson = new Person();
-    private int aktuelleIndex = 0;
 
     @Inject
     private PersonDAO personDAO;
@@ -49,21 +47,6 @@ public class PersonenListe implements Serializable {
         this.neuePerson = neuePerson;
     }
 
-    public int getAktuelleIndex() {
-        return aktuelleIndex;
-    }
-
-    public void setAktuelleIndex(int index) {
-        this.aktuelleIndex = index;
-    }
-
-    public Person getAktuellerNutzer() {
-        List<Person> personen = getPersonen();
-        if (aktuelleIndex >= 0 && aktuelleIndex < personen.size()) {
-            return personen.get(aktuelleIndex);
-        }
-        return null;
-    }
 
     public void personHinzufuegen() {
         try {

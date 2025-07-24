@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Geisternetz melden</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/melden.css" />
+</h:head>
+
+<h:body>
+    <h:form rendered="#{loginController.eingeloggt}" id="profilForm">
+
+    <div class="main-container">
+        <h1>🌊 Geisternetz melden</h1>
+        <div class="subtitle">
+            Beginne jetzt aktiv zu werden und melde Geisternetze. Helfe dabei, unsere Meere zu schützen!
+        </div>
+
+       
+
+        <!-- Koordinaten-Hilfe -->
+        <div class="coordinates-info">
+            <h3>Ob im Meer oder in Seen, Geisternetze stellen eine Gefahr für die Natur dar.</h3>
+            
+            <p><strong>📍Nur gemeinsam können wir alle Geisternetze lokalisieren.</strong></p>
+            <p>Mit deiner Hilfe können Geisternetze gefunden und von Leuten mit dem richtigen Equipment entfernt werden. Leiste deinen Beitrag und werde eine meldende Person. So kannst du jederzeit ein Geisternetz melden wenn du eins sehen solltest.</p>
+            
+            
+ 				
+        		
+				<div style="margin-top: 2rem; text-align: center; display: flex; justify-content: center; gap: 1rem;">
+                <p:commandButton value="Jetzt als meldende Person aktiv werden"
+                     action="#{loginController.werdeMeldendePerson}"
+                     icon="pi pi-flag"
+                     styleClass="p-button-success p-button-lg" />
+
+                <p:button outcome="dashboard" 
+                         value="Zurück zum Dashboard" 
+                         icon="pi pi-home"
+                         styleClass="p-button-secondary" />
+            </div>
+
+
+
+     </div>
+        </div>
+
+ </h:form>
+ 
+
+ <!-- Content when user is NOT logged in -->
+    <h:form rendered="#{loginController.nichtEingeloggt}">
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
+            
+            <div style=" color:white; padding: 2rem; border-radius: 10px; border: 1px solid #74b9ff; max-width: 500px;">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #74b9ff;"></i>
+                <h2 style="margin-bottom: 1rem; color: white;">Anmeldung erforderlich</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Sie müssen sich zuerst anmelden, um Ihr Profil bearbeiten zu können.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <p:button outcome="login" 
+                             value="Zur Anmeldung" 
+                             icon="pi pi-sign-in" 
+                             styleClass="p-button-lg p-button-primary" />
+                    
+                    <p:button outcome="landingpage" 
+                             value="Zur Startseite" 
+                             icon="pi pi-home" 
+                             styleClass="p-button-lg p-button-secondary" />
+                </div>
+            </div>
+        </div>
+    </h:form>
+ 
+ 
+</h:body>
+</html>

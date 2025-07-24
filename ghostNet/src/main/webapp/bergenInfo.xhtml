@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Geisternetz bergen</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/melden.css" />
+</h:head>
+
+<h:body>
+    <h:form rendered="#{loginController.eingeloggt}" id="profilForm">
+
+    <div class="main-container">
+        <h1>⚓ Werde bergende Person für Geisternetze</h1>
+        <div class="subtitle">
+            Hilf aktiv mit, unsere Meere zu retten – werde Teil unseres Teams und entferne gefährliche Geisternetze aus der Natur!
+        </div>
+
+        <!-- Bergungs-Info -->
+        <div class="coordinates-info">
+            <h3>Geisternetze stellen eine ernsthafte Gefahr für Meerestiere und Ökosysteme dar.</h3>
+            
+            <p><strong>🛠️ Wir brauchen dich als bergende Person!</strong></p>
+            <p>Wenn du über Erfahrung im Tauchen verfügst oder Zugang zu einem Boot hast, kannst du dich als bergende Person engagieren. Deine Aufgabe wird es sein, gemeldete Geisternetze sicher zu bergen – im Team oder mit deiner Ausrüstung.</p>
+
+            <h4>Was du für eine sichere Bergung benötigst:</h4>
+            <ul>
+                <li>✅ Erfahrung im Tauchen oder im Umgang mit Booten</li>
+                <li>✅ Kenntnisse über Sicherheitsmaßnahmen unter Wasser</li>
+                <li>✅ Geeignete Ausrüstung wie Tauchanzug, Messer, Hebesäcke oder Netzsäcke</li>
+                <li>✅ Optional: Teilnahme an einem unserer Bergungsworkshops</li>
+            </ul>
+
+            <p>Wenn du die Voraussetzungen erfüllst und etwas bewirken willst, dann mach mit!</p>
+
+            <div style="margin-top: 2rem; text-align: center; display: flex; justify-content: center; gap: 1rem;">
+                <p:commandButton value="Jetzt als bergende Person bewerben"
+                     action="#{loginController.werdeBergendePerson}"
+                     icon="pi pi-anchor"
+                     styleClass="p-button-success p-button-lg" />
+
+                <p:button outcome="dashboard" 
+                         value="Zurück zum Dashboard" 
+                         icon="pi pi-home"
+                         styleClass="p-button-secondary" />
+            </div>
+        </div>
+    </div>
+
+ </h:form>
+
+ <!-- Content when user is NOT logged in -->
+    <h:form rendered="#{loginController.nichtEingeloggt}">
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
+            
+            <div style=" color:white; padding: 2rem; border-radius: 10px; border: 1px solid #74b9ff; max-width: 500px;">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #74b9ff;"></i>
+                <h2 style="margin-bottom: 1rem; color: white;">Anmeldung erforderlich</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Sie müssen sich zuerst anmelden, um sich als bergende Person zu bewerben.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <p:button outcome="login" 
+                             value="Zur Anmeldung" 
+                             icon="pi pi-sign-in" 
+                             styleClass="p-button-lg p-button-primary" />
+                    
+                    <p:button outcome="landingpage" 
+                             value="Zur Startseite" 
+                             icon="pi pi-home" 
+                             styleClass="p-button-lg p-button-secondary" />
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</h:body>
+</html>

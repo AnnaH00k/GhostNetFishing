@@ -1,0 +1,438 @@
+:root {
+  --primary-bg: #0f1419;
+  --secondary-bg: #193149;
+  --accent-bg: #1e2832;
+  --text-primary: #D0DFEF;
+  --text-secondary: #9ca3af;
+  --accent-color: #74b9ff;
+  --border-color: rgba(208, 223, 239, 0.1);
+  --card-bg: rgba(25, 49, 73, 0.6);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 50%, var(--accent-bg) 100%);
+     width: 100vw;
+  height: 100vh;
+    
+}
+
+/* Header-Bereich */
+.bergen-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70px;
+}
+
+.bergen-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.bergen-header .header-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Hauptinhalt-Container */
+.main-content {
+    margin-top: 80px;
+    margin-bottom: 90px;
+    min-height: calc(100vh - 170px);
+}
+
+/* Karten-Container */
+.map-container {
+    height: 80vh;
+    width: 100%;
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Zugriff verweigert Bereich */
+.access-denied {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.access-denied h1 {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.access-denied p {
+    margin: 0;
+    max-width: 500px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    
+}
+
+/* Bergungsformular */
+.bergung-form {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.bergung-form h4 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+/* Bergungsbuttons */
+.bergung-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.bergung-buttons .ui-button {
+    min-width: 150px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.bergung-buttons .ui-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Fieldset Styling */
+.ui-fieldset {
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #fafbfc;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+    background: #3498db;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.ui-fieldset .ui-fieldset-content {
+    padding: 1.5rem;
+}
+
+/* Panel Styling */
+.ui-panel {
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    z-index: 999;
+    min-height: 70px;
+    align-items: center;
+}
+
+.bottom-nav .ui-button {
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.bottom-nav .ui-button:hover {
+    transform: translateY(-2px);
+}
+
+/* Dialog Styling */
+.ui-dialog {
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    border: none;
+    max-width: 95vw;
+    max-height: 90vh;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    padding: 1rem 1.5rem;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0;
+    border: none;
+    border-radius: 0 0 12px 12px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Responsive Dialog ohne JavaScript */
+@media (max-width: 768px) {
+    .ui-dialog {
+        width: 95% !important;
+        left: 2.5% !important;
+        margin: 0 !important;
+        max-height: 85vh;
+    }
+    
+    .ui-dialog .ui-dialog-content {
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .ui-dialog {
+        width: 98% !important;
+        left: 1% !important;
+        max-height: 90vh;
+    }
+    
+    .ui-dialog .ui-dialog-content {
+        max-height: 65vh;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .bergen-header {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-height: 90px;
+    }
+    
+    .bergen-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .main-content {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        background: var(--primary-bg);
+    }
+    
+    .map-container {
+        height: calc(100vh - 200px);
+        margin: 0 0.5rem;
+    }
+    
+    .bottom-nav {
+        padding: 0.75rem 1rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+        min-height: 80px;
+        
+    }
+    
+    .bottom-nav .ui-button {
+        min-width: 100px;
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .bergung-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .bergung-buttons .ui-button {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .access-denied {
+        padding: 1rem;
+    }
+    
+    .access-denied h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bergen-header {
+        min-height: 100px;
+    }
+    
+    .main-content {
+        margin-top: 110px;
+        margin-bottom: 110px;
+    }
+    
+    .map-container {
+        height: calc(100vh - 220px);
+        margin: 0 0.25rem;
+    }
+    
+    .bottom-nav {
+        min-height: 90px;
+    }
+    
+    .ui-dialog {
+        width: 95% !important;
+        left: 2.5% !important;
+    }
+    
+    .bergung-form {
+        padding: 1rem;
+    }
+}
+
+/* Status-spezifische Styles */
+.status-gemeldet {
+    border-left: 4px solid #f39c12;
+}
+
+.status-wirdgeborgen {
+    border-left: 4px solid #3498db;
+}
+
+.status-geborgen {
+    border-left: 4px solid #27ae60;
+}
+
+/* Erfolgs- und Fehlermeldungen */
+.success-message {
+    color: #27ae60;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Kalender-Styling */
+.ui-calendar {
+    width: 100%;
+}
+
+/* Grid-Layout für Formulare */
+.ui-panelgrid {
+    width: 100%;
+}
+
+.ui-panelgrid td {
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Checkbox-Styling */
+.ui-chkbox {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Button-Varianten */
+.ui-button.p-button-success {
+    background: #27ae60;
+    border-color: #27ae60;
+}
+
+.ui-button.p-button-success:hover {
+    background: #229954;
+    border-color: #229954;
+}
+
+.ui-button.p-button-danger {
+    background: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.ui-button.p-button-danger:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+}
+
+.ui-button.p-button-outlined {
+    background: transparent;
+    color: #3498db;
+    border: 2px solid #3498db;
+}
+
+.ui-button.p-button-outlined:hover {
+    background: #3498db;
+    color: white;
+}
+
+/* Animationen */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bergung-form, .ui-fieldset {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar-Styling für Webkit-Browser */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

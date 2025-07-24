@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Geisternetz melden</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/melden.css" />
+</h:head>
+
+<h:body>
+    <div class="main-container">
+        <h1>🌊 Geisternetz melden</h1>
+        <div class="subtitle">
+            Beginne jetzt aktiv zu werden und melde Geisternetze. Helfe dabei, unsere Meere zu schützen!
+        </div>
+
+        <h:form styleClass="form-container">
+            <div class="form-grid">
+                
+                <div class="form-group">
+                    <h:outputText value="Größe des Netzes:" styleClass="form-label" />
+                    <p:inputText 
+                        id="größe" 
+                        value="#{geisternetzListe.neuesGeisternetz.groeße}"
+                        placeholder="z.B. 2x3 Meter"
+                        required="true"
+                        requiredMessage="Bitte geben Sie eine Größe an." />
+                </div>
+
+                <div class="form-group">
+                    <h:outputText value="Status des Netzes:" styleClass="form-label" />
+                    <p:selectOneMenu 
+                        id="netzstatus" 
+                        value="#{geisternetzListe.neuesGeisternetz.netzStatus}" 
+                        required="true"
+                        requiredMessage="Bitte wählen Sie einen Status aus.">
+                        <f:selectItem itemLabel="Bitte wählen..." itemValue="" />
+                        <f:selectItems 
+                            value="#{geisternetzListe.netzStatus}" 
+                            var="status"
+                            itemLabel="#{status}" 
+                            itemValue="#{status}" />
+                    </p:selectOneMenu>
+                </div>
+
+                <div class="form-group">
+                    <h:outputText value="Standort/Beschreibung:" styleClass="form-label" />
+                    <p:inputText 
+                        id="standort" 
+                        placeholder="z.B. Ostsee, Rügen, Südstrand"
+                        value="#{geisternetzListe.neuesGeisternetz.standort}" />
+                </div>
+
+                <div class="form-group">
+                    <h:outputText value="Bild-URL (optional):" styleClass="form-label" />
+                    <p:inputText 
+                        id="bild" 
+                        value="#{geisternetzListe.neuesGeisternetz.bild}"
+                        placeholder="https://example.com/bild.jpg" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <h:outputText value="Breitengrad (Latitude):" styleClass="form-label" />
+                        <p:inputNumber 
+                            id="breitengrad" 
+                            value="#{geisternetzListe.neuesGeisternetz.lat}" 
+                            placeholder="z.B. 54.123456"
+                            required="true"
+                            decimalPlaces="6"
+                            minValue="-90"
+                            maxValue="90"
+                            requiredMessage="Bitte geben Sie einen Breitengrad an." />
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputText value="Längengrad (Longitude):" styleClass="form-label" />
+                        <p:inputNumber 
+                            id="längengrad" 
+                            value="#{geisternetzListe.neuesGeisternetz.lng}" 
+                            placeholder="z.B. 13.654321"
+                            required="true"
+                            decimalPlaces="6"
+                            minValue="-180"
+                            maxValue="180"
+                            requiredMessage="Bitte geben Sie einen Längengrad an." />
+                    </div>
+                </div>
+
+                <!-- Neue Anonymitätsoption -->
+                <div class="form-group full-width">
+                    <div class="anonymity-section">
+                        <h:outputText value="Anonymität:" styleClass="form-label" />
+                        <div class="checkbox-container">
+                            <p:selectBooleanCheckbox 
+                                id="anonymeMeldung"
+                                value="#{geisternetzErstellungsController.anonymeMeldung}"
+                                styleClass="anonymity-checkbox" />
+                            <h:outputLabel for="anonymeMeldung" styleClass="checkbox-label">
+                                🔒 Meldung anonym abgeben
+                            </h:outputLabel>
+                        </div>
+                        <div class="anonymity-info">
+                            <small>
+                                <i class="pi pi-info-circle"></i>
+                                Bei anonymen Meldungen werden keine persönlichen Daten gespeichert. 
+                                Sie können trotzdem zur Verbesserung des Meeresschutzes beitragen!
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <p:commandButton 
+                        value="📍 Geisternetz melden" 
+                        icon="pi pi-plus"
+                        action="#{geisternetzErstellungsController.erstellung}"
+                        styleClass="ui-button-raised ui-button-secondary" />
+                </div>
+
+                <div class="error-message" 
+                     style="#{empty geisternetzErstellungsController.fehlermeldung ? 'display: none;' : ''}">
+                    <h:outputText value="#{geisternetzErstellungsController.fehlermeldung}" />
+                </div>
+            </div>
+        </h:form>
+
+        <!-- Koordinaten-Hilfe -->
+        <div class="coordinates-info">
+            <h3>📍 Wie finde ich die richtigen Koordinaten?</h3>
+            
+            <p><strong>Schritt-für-Schritt Anleitung mit Google Maps:</strong></p>
+            <ul>
+                <li>Öffnen Sie <a href="https://maps.google.com" target="_blank" style="color: var(--accent-color);">Google Maps</a></li>
+                <li>Suchen Sie den gewünschten Ort oder navigieren Sie dorthin</li>
+                <li>Klicken Sie mit der rechten Maustaste auf die exakte Stelle</li>
+                <li>Wählen Sie "Was ist hier?" aus dem Kontextmenü</li>
+                <li>Die Koordinaten werden unten angezeigt</li>
+            </ul>
+
+            <div class="example-box">
+                <strong>Beispiel:</strong><br/>
+                Google Maps zeigt: 54.123456, 13.654321<br/>
+                → Breitengrad: 54.123456<br/>
+                → Längengrad: 13.654321
+            </div>
+
+            <p><strong>Genauigkeit der Dezimalstellen:</strong></p>
+            <ul>
+                <li><strong>1 Dezimalstelle:</strong> ~11 km Genauigkeit</li>
+                <li><strong>2 Dezimalstellen:</strong> ~1.1 km Genauigkeit</li>
+                <li><strong>3 Dezimalstellen:</strong> ~110 m Genauigkeit</li>
+                <li><strong>4 Dezimalstellen:</strong> ~11 m Genauigkeit</li>
+                <li><strong>5 Dezimalstellen:</strong> ~1.1 m Genauigkeit</li>
+                <li><strong>6 Dezimalstellen:</strong> ~11 cm Genauigkeit</li>
+            </ul>
+
+            <p><strong>💡 Tipp:</strong> Für die Meldung von Geisternetzen sind 4-6 Dezimalstellen ideal, 
+            um eine ausreichend genaue Lokalisierung zu gewährleisten.</p>
+
+            <p><strong>⚠️ Wichtige Bereiche:</strong></p>
+            <ul>
+                <li><strong>Breitengrad:</strong> -90 bis +90 (Nord-Süd)</li>
+                <li><strong>Längengrad:</strong> -180 bis +180 (Ost-West)</li>
+                <li><strong>Deutschland:</strong> Breitengrad ~47-55, Längengrad ~6-15</li>
+            </ul>
+        </div>
+
+        <!-- Datenschutz-Hinweis für Anonymität -->
+        <div class="privacy-info">
+            <h3>🔒 Datenschutz und Anonymität</h3>
+            <p><strong>Anonyme Meldungen:</strong></p>
+            <ul>
+                <li>Keine Speicherung persönlicher Daten</li>
+                <li>Keine Rückverfolgung zur meldenden Person</li>
+                <li>Trotzdem vollwertiger Beitrag zum Meeresschutz</li>
+                <li>Koordinaten und Netzdetails werden für Bergungsaktionen verwendet</li>
+            </ul>
+            
+            <p><strong>Nicht-anonyme Meldungen:</strong></p>
+            <ul>
+                <li>Möglichkeit zur Kontaktaufnahme bei Rückfragen</li>
+                <li>Anerkennung des Beitrags zum Umweltschutz</li>
+                <li>Benachrichtigung über Bergungserfolg</li>
+                <li>Daten werden gemäß DSGVO behandelt</li>
+            </ul>
+        </div>
+    </div>
+
+    <style>
+       
+    </style>
+</h:body>
+</html>

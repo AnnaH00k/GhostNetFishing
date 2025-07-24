@@ -10,50 +10,107 @@
 </h:head>
 
 <h:body>
-    <h:form id="profilForm">
-        <h2>Mein Profil bearbeiten</h2>
 
-        <h:panelGrid columns="2" cellpadding="5">
-            <h:outputLabel value="Nutzer-Nr.:" for="nr" />
-            <h:inputText id="nr" value="#{loginController.aktuellerNutzer.nr}" disabled="true" />
+    <h:form rendered="#{loginController.eingeloggt}" id="profilForm">
+        <div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+            <h2>Mein Profil bearbeiten</h2>
 
-            <h:outputLabel value="Name:" for="name" />
-            <h:inputText id="name" value="#{loginController.aktuellerNutzer.name}" required="true">
-                <f:validateRegex pattern="[a-zA-ZäöüÄÖÜß\s\-']{2,}" />
-            </h:inputText>
-            <h:outputLabel/>
-            <h:message for="name" style="color: darkred;" />
+            <h:panelGroup rendered="#{not empty loginController.fehlermeldung}">
+                <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+                    <i class="pi pi-exclamation-triangle"></i> #{loginController.fehlermeldung}
+                </div>
+            </h:panelGroup>
 
-            <h:outputLabel value="Telefonnummer:" for="telefonnummer" />
-            <h:inputText id="telefonnummer" value="#{loginController.aktuellerNutzer.telefonnummer}" required="true" />
+            <h:panelGrid columns="2" cellpadding="10" style="width: 100%;">
+                <h:outputLabel value="Nutzer-Nr.:" for="nr" />
+                <h:inputText id="nr" value="#{loginController.aktuellerNutzer.nr}" 
+                            disabled="true" 
+                            style="background-color: #f8f9fa;" />
 
-            <h:outputLabel value="Bild-URL:" for="bild" />
-            <h:inputText id="bild" value="#{loginController.aktuellerNutzer.bild}" />
-            
-            <h:outputLabel value="Rolle" for="rolle" />
-            <p:selectOneMenu id="rolle" value="#{loginController.aktuellerNutzer.rollenTyp}">
-	            <f:selectItems value="#{personenListe.rollenTypen}" var="typ"
-	                           itemValue="#{typ}" itemLabel="#{typ}" />
-	        </p:selectOneMenu>
+                <h:outputLabel value="Name:" for="name" />
+                <h:panelGroup>
+                    <h:inputText id="name" 
+                                value="#{loginController.aktuellerNutzer.name}" 
+                                required="true"
+                                style="width: 300px;">
+                        <f:validateRegex pattern="[a-zA-ZäöüÄÖÜß\s\-']{2,}" />
+                    </h:inputText>
+                    <h:message for="name" style="color: darkred; display: block; margin-top: 5px;" />
+                </h:panelGroup>
 
-            <h:outputLabel value="Bildvorschau:" />
-            <h:graphicImage value="#{loginController.aktuellerNutzer.bild}" width="100" height="100"
-                            style="object-fit: contain; border-radius: 5px;" />
+                <h:outputLabel value="Telefonnummer:" for="telefonnummer" />
+                <h:inputText id="telefonnummer" 
+                            value="#{loginController.aktuellerNutzer.telefonnummer}" 
+                            required="true"
+                            style="width: 300px;" />
 
-            <h:outputLabel value="Passwort:" for="passwort" />
-            <h:inputSecret id="passwort" value="#{loginController.aktuellerNutzer.passwort}" redisplay="true" required="true" />
-        </h:panelGrid>
+                <h:outputLabel value="Bild-URL:" for="bild" />
+                <h:inputText id="bild" 
+                            value="#{loginController.aktuellerNutzer.bild}"
+                            style="width: 300px;" />
 
-        <br />
+                <h:outputLabel value="Rolle:" for="rolle" />
+                <p:selectOneMenu id="rolle" 
+                                value="#{loginController.aktuellerNutzer.rollenTyp}"
+                                style="width: 300px;">
+                    <f:selectItems value="#{personenListe.rollenTypen}" var="typ"
+                                  itemValue="#{typ}" itemLabel="#{typ}" />
+                </p:selectOneMenu>
 
-        <p:commandButton value="Speichern"
-                         action="#{loginController.speichereProfil}"
-                         update="@form"
-                         icon="pi pi-save" />
+                <h:outputLabel value="Bildvorschau:" />
+                <h:graphicImage value="#{loginController.aktuellerNutzer.bild}" 
+                               width="100" height="100"
+                               style="object-fit: contain; border-radius: 5px; border: 1px solid #dee2e6;" />
 
-        <p:spacer width="20" />
-        <p:button outcome="dashboard" value="Zurück zum Dashboard" icon="pi pi-home"/>
+                <h:outputLabel value="Passwort:" for="passwort" />
+                <h:inputSecret id="passwort" 
+                              value="#{loginController.aktuellerNutzer.passwort}" 
+                              redisplay="true" 
+                              required="true"
+                              style="width: 300px;" />
+            </h:panelGrid>
 
+            <div style="margin-top: 2rem; text-align: center;">
+                <p:commandButton value="Speichern"
+                                action="#{loginController.profilSpeichern}"
+                                update="@form"
+                                icon="pi pi-save"
+                                style="margin-right: 1rem;"
+                                styleClass="p-button-success" />
+
+                <p:button outcome="dashboard" 
+                         value="Zurück zum Dashboard" 
+                         icon="pi pi-home"
+                         styleClass="p-button-secondary" />
+            </div>
+        </div>
     </h:form>
+
+    <!-- Content when user is NOT logged in -->
+    <h:form rendered="#{loginController.nichtEingeloggt}">
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
+            
+            <div style=" color:white; padding: 2rem; border-radius: 10px; border: 1px solid #74b9ff; max-width: 500px;">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #74b9ff;"></i>
+                <h2 style="margin-bottom: 1rem; color: white;">Anmeldung erforderlich</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Sie müssen sich zuerst anmelden, um Ihr Profil bearbeiten zu können.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <p:button outcome="login" 
+                             value="Zur Anmeldung" 
+                             icon="pi pi-sign-in" 
+                             styleClass="p-button-lg p-button-primary" />
+                    
+                    <p:button outcome="landingpage" 
+                             value="Zur Startseite" 
+                             icon="pi pi-home" 
+                             styleClass="p-button-lg p-button-secondary" />
+                </div>
+            </div>
+        </div>
+    </h:form>
+
 </h:body>
 </html>

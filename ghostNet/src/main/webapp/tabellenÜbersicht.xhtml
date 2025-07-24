@@ -255,7 +255,7 @@
 					<p:column headerText="Löschen">
 					    <p:commandButton value="Löschen" 
 					                     action="#{geisternetzController.removeGeisternetz(geisternetz)}"
-					                     update="geisternetzTabelle"
+    									 update=":meldungForm:meldungTabelle :geisternetzForm:geisternetzTabelle"
 					                     styleClass="ui-button-danger"
 					                     ajax="true"
 					                     process="@this" >
@@ -275,7 +275,7 @@
         <!-- Meldungstabelle -->
         <p:card>
             <f:facet name="title">Meldungen</f:facet>
-            <h3>Übersicht über alle Geisternetze</h3>
+            <h3>Übersicht über alle gemeldeten Geisternetze</h3>
 
             <h:form id="meldungForm">
                 <p:dataTable id="meldungTabelle" var="geisternetz"
@@ -356,6 +356,47 @@
     </h:form>
 </p:dialog>
 
+
+
+
+      <div style="height: 40px;"></div>
+     
+     
+     
+     
+     <!-- Status Übersicht -->
+<p:card>
+    <h:form id="statusForm">
+        <p:panel header="Status Übersicht der Geisternetze" styleClass="mt-3">
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-noborder">
+            <p:outputLabel value="Gesamtanzahl gemeldeter Geisternetze:" />
+                <h:outputText value="#{geisternetzListe.geisternetze.stream().filter(g -> g.netzStatus == 'GEMELDET').count()}" />
+                <p:outputLabel value="Gesamtanzahl bevorstehender Bergungen:" />
+                <h:outputText value="#{geisternetzListe.geisternetze.stream().filter(g -> g.netzStatus == 'BERGUNGBEVORSTEHEND').count()}" />
+                <p:outputLabel value="Gesamtanzahl aktiver Bergungen:" />
+                <h:outputText value="#{geisternetzListe.geisternetze.stream().filter(g -> g.netzStatus == 'GEBORGEN').count()}" />
+                <p:outputLabel value="Gesamtanzahl verschollener Geisternetze:" />
+                <h:outputText value="#{geisternetzListe.geisternetze.stream().filter(g -> g.netzStatus == 'VERSCHOLLEN').count()}" />
+                
+                
+            </p:panelGrid>
+        </p:panel>
+    </h:form>
+</p:card>
+     
+     
+     
+     
+      <div style="height: 40px;"></div>
+     
+     
+     
+
+     
+     
+     
+     
+      
         
     </p:outputPanel>
 </h:body>

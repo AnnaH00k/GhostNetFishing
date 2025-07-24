@@ -22,7 +22,6 @@ public class RegisterController implements Serializable {
     private String fehlermeldung;
     
     private static final List<String> DEFAULT_IMAGES = Arrays.asList(
-        "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSEhIVFhUVFRUWFRUVFRUVFxYVFRcWFhUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGhAQGi0fHyUtLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAMEBBQMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAADAAECBAUGB...",
         "https://t4.ftcdn.net/jpg/02/53/61/69/360_F_253616948_za22DUrpvoM6aBDyPZxXDXf1OVNZFhL4.jpg",
         "https://www.aqueon.com/-/media/project/oneweb/aqueon/us/blog/top-5-aggressive-fish-tank-species-for-your-home-aquarium/shutterstock-2175454025-web.jpg",
         "https://images.theconversation.com/files/299379/original/file-20191030-154716-1wc4d64.jpg?ixlib=rb-4.1.0&rect=0%2C12%2C2048%2C1023&q=45&auto=format&w=1356&h=668&fit=crop",
@@ -43,6 +42,14 @@ public class RegisterController implements Serializable {
         if (!validiereEingaben()) {
             return null; // Stay on the same page
         }
+        
+        
+        Person neuePerson = personenListe.getNeuePerson();
+        if (neuePerson.getBild() == null || neuePerson.getBild().trim().isEmpty()) {
+            neuePerson.setBild(getRandomImage());
+        }
+        
+        
         
         try {
             // Add the new person to the database
@@ -116,8 +123,9 @@ public class RegisterController implements Serializable {
             fehler.append("Die Passwörter stimmen nicht überein. ");
             isValid = false;
         }
+             
         
-        // Validate phone number (optional)
+     // Validate phone number
         if (neuePerson.getTelefonnummer() != null && !neuePerson.getTelefonnummer().trim().isEmpty()) {
             String telefon = neuePerson.getTelefonnummer().trim();
             if (!telefon.matches("[0-9+\\-\\s()]+")) {
@@ -127,13 +135,10 @@ public class RegisterController implements Serializable {
                 fehler.append("Telefonnummer muss mindestens 6 Ziffern enthalten. ");
                 isValid = false;
             }
-        }
+        } 
         
-        // Set random image if none provided
-        if (neuePerson.getBild() == null || neuePerson.getBild().trim().isEmpty()) {
-            String randomImage = getRandomImage();
-            neuePerson.setBild(randomImage);
-        }
+        
+        
         
         // Check if name already exists
         if (isValid && neuePerson.getName() != null && !neuePerson.getName().trim().isEmpty()) {

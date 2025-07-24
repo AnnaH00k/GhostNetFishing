@@ -23,15 +23,36 @@
                         Gemeinsam gegen die Plastikverschmutzung unserer Ozeane.
                     </p>
                    
+                   	  
+                   	  <p:commandButton value="Zu Dashboard" 
+                                       action="/dashboard.xhtml?faces-redirect=true"
+                                       icon="pi pi-user" 
+                                       styleClass="p-button-lg p-button-raised hero-btn-primary"
+                                       rendered="#{loginController.eingeloggt}"/>
+                   
+	                   <p:commandButton value="Abmelden" 
+		                 icon="pi pi-sign-out" 
+		                 action="#{loginController.logout}" 
+		                 styleClass="p-button-secondary"
+		                 style="margin:1rem;"
+		                 title="Ausloggen"
+		                 rendered="#{loginController.eingeloggt}" />
+	
+					
+				
+                   
+                   
                     <div class="hero-actions">
                         <p:commandButton value="Registrieren" 
                                        action="/register.xhtml?faces-redirect=true"
                                        icon="pi pi-user-plus" 
-                                       styleClass="p-button-lg p-button-raised hero-btn-primary"/>
+                                       styleClass="p-button-lg p-button-raised hero-btn-primary"
+                                       rendered="#{loginController.nichtEingeloggt}"/>
                         <p:commandButton value="Anmelden" 
                                        action="/login.xhtml?faces-redirect=true"
                                        icon="pi pi-sign-in" 
-                                       styleClass="p-button-lg p-button-outlined hero-btn-secondary"/>
+                                       styleClass="p-button-lg p-button-outlined hero-btn-secondary"
+                                       rendered="#{loginController.nichtEingeloggt}"/>
                     </div>
                 </div>
             </div>

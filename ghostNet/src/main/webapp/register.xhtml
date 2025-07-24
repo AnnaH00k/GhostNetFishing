@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      
+      >
 <h:head>
     <link rel="stylesheet" type="text/css" href="resources/css/login-register.css" />
     <title>Ghost Net Fishing: Registrierung</title>
@@ -91,14 +94,16 @@
                 </div>
 
                 <div class="button-group">
-                    <h:commandButton 
+                    <p:commandButton 
                         value="Registrieren"
                         action="#{registerController.registrieren}"
-                        class="btn btn-primary" />
+                        update="@form"
+                        class="btn btn-primary"
+                        default="false" />
 
                     <h:commandButton 
-                        value="Zurück zum Login"
-                        action="login?faces-redirect=true"
+                        value="Zurück"
+                        action="landingpage?faces-redirect=true"
                         immediate="true"
                         class="btn btn-secondary" />
                 </div>

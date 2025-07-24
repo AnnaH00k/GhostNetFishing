@@ -56,7 +56,6 @@ public class PersonenListe implements Serializable {
             neuePerson = new Person();
         } catch (Exception e) {
             e.printStackTrace();
-            // Hier ggf. eine Benutzerbenachrichtigung hinzufügen
         }
     }
 

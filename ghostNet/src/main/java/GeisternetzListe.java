@@ -327,15 +327,7 @@ public class GeisternetzListe implements Serializable {
             .filter(g -> !istBergungGeplant(g))
             .count();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
 }

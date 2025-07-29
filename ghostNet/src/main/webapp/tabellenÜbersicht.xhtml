@@ -209,15 +209,15 @@
 		                      requiredMessage="Bitte geben Sie einen Längengrad an."/>
                                                     
                              <p:commandButton value="Hinzufügen" icon="pi pi-plus"
-                                             action="#{geisternetzErstellungsController.erstellung}"
+                                             action="#{geisternetzController.erstellung}"
                                              update="geisternetzTabelle"
                                              styleClass="ui-button-raised ui-button-secondary" />
                         </p:panelGrid>
                         
                         <div class="error-message">
-			                <h:outputText value="#{geisternetzErstellungsController.fehlermeldung}" 
+			                <h:outputText value="#{geisternetzController.fehlermeldung}" 
 			                              styleClass="error" 
-			                              rendered="#{not empty geisternetzErstellungsController.fehlermeldung}" />
+			                              rendered="#{not empty geisternetzController.fehlermeldung}" />
 			            </div>
                     </f:facet>
 

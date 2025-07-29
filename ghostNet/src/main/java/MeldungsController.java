@@ -17,16 +17,12 @@ public class MeldungsController implements Serializable {
     private List<Meldung> aktuelleGeisternetzMeldungen;
     private Geisternetz aktuellesGeisternetz;
     
-    /**
-     * Lädt alle Meldungen für ein bestimmtes Geisternetz
-     * @param geisternetz Das Geisternetz
-     */
+   
     public void ladeMeldungenZuGeisternetz(Geisternetz geisternetz) {
         this.aktuellesGeisternetz = geisternetz;
         this.aktuelleGeisternetzMeldungen = geisternetzListe.getMeldungenFuerGeisternetz(geisternetz);
     }
     
-    // Getter und Setter
     public List<Meldung> getAktuelleGeisternetzMeldungen() {
         return aktuelleGeisternetzMeldungen;
     }
@@ -50,3 +46,5 @@ public class MeldungsController implements Serializable {
         return meldung.getMeldungsDatum().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
     }
 }
+
+

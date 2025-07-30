@@ -21,7 +21,6 @@
 <h:body>
     <p:outputPanel styleClass="ui-fluid">
 
-        <!-- Nutzertabelle -->
         <p:card>
             <f:facet name="title">Nutzertabelle</f:facet>
             <h3>Übersicht über alle Nutzer</h3>
@@ -272,7 +271,6 @@
         
         <div style="height: 40px;"></div>
         
-        <!-- Meldungstabelle -->
         <p:card>
             <f:facet name="title">Meldungen</f:facet>
             <h3>Übersicht über alle gemeldeten Geisternetze</h3>
@@ -287,20 +285,20 @@
                         <h:outputText value="#{geisternetz.nr}" />
                     </p:column>
    					<p:column headerText="Personen ID">
-						 <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) != null}">
-	                            <h:outputText value="#{geisternetzListe.getErstenMelder(geisternetz).nr}" />
+						 <ui:fragment rendered="#{meldungsController.getErstenMelder(geisternetz) != null}">
+	                            <h:outputText value="#{meldungsController.getErstenMelder(geisternetz).nr}" />
 	                        </ui:fragment>
-	                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) == null}">
+	                        <ui:fragment rendered="#{meldungsController.getErstenMelder(geisternetz) == null}">
 	                            <h:outputText value="Anonym" />
 	                        </ui:fragment>
                      </p:column>
                   
 
                     <p:column headerText="Erster Melder">
-                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) != null}">
-                            <h:outputText value="#{geisternetzListe.getErstenMelder(geisternetz).name}" />
+                        <ui:fragment rendered="#{meldungsController.getErstenMelder(geisternetz) != null}">
+                            <h:outputText value="#{meldungsController.getErstenMelder(geisternetz).name}" />
                         </ui:fragment>
-                        <ui:fragment rendered="#{geisternetzListe.getErstenMelder(geisternetz) == null}">
+                        <ui:fragment rendered="#{meldungsController.getErstenMelder(geisternetz) == null}">
                             <h:outputText value="Anonym" />
                         </ui:fragment>
                     </p:column>
@@ -315,7 +313,6 @@
             </h:form>
         </p:card>
 
-       <!-- Dialog für Meldungsdetails -->
 <p:dialog id="meldungDetailDialog"
           widgetVar="meldungDetailDialog"
           modal="true" width="800" height="500"
@@ -332,7 +329,7 @@
                      
 
             <p:column headerText="Meldedatum">
-               <h:outputText value="#{meldungsController.getFormatiertesDatum(meldung)}" />
+				<h:outputText value="#{meldungsController.getFormatiertesMeldungsDatum(meldung.geisternetz)}" />
 
             </p:column>
 
@@ -364,7 +361,6 @@
      
      
      
-     <!-- Status Übersicht -->
 <p:card>
     <h:form id="statusForm">
         <p:panel header="Status Übersicht der Geisternetze" styleClass="mt-3">

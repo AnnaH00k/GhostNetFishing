@@ -20,6 +20,9 @@ public class GeisternetzMapView implements Serializable {
     private GeisternetzListe geisternetzListe;
     
     @Inject
+    private MeldungsController meldungsController;
+    
+    @Inject
     private BergungsController bergungsController;
 
     @PostConstruct
@@ -27,18 +30,15 @@ public class GeisternetzMapView implements Serializable {
         geisternetzModel = new DefaultMapModel();
 
         for (Geisternetz netz : geisternetzListe.getGeisternetze()) {
-            LatLng koordinaten = new LatLng(netz.getLat(), netz.getLng());
+            meldungsController.ladeMeldungenZuGeisternetz(netz);
 
-            // Statusabhängige Darstellung
+            LatLng koordinaten = new LatLng(netz.getLat(), netz.getLng());
             String statusColor = getStatusColor(netz.getNetzStatus());
             String statusIcon = getStatusIcon(netz.getNetzStatus());
-            
             String info = createInfoString(netz);
             
-            // Titel enthält die Geisternetz-Nummer für einfache Identifikation
             Marker marker = new Marker(koordinaten, String.valueOf(netz.getNr()), info);
             marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + statusColor + "-dot.png");
-            
             geisternetzModel.addOverlay(marker);
         }
     }
@@ -52,9 +52,24 @@ public class GeisternetzMapView implements Serializable {
         info.append(getStatusDisplayName(netz.getNetzStatus())).append("</span><br>");
         info.append("<b>Standort:</b> ").append(netz.getStandort()).append("<br>");
         info.append("<b>Koordinaten:</b> ").append(netz.getLat()).append(", ").append(netz.getLng()).append("<br>");
+        info.append("<b>Gemeldet am:</b> ").append(meldungsController.getFormatiertesMeldungsDatum(netz)).append("<br>");
+
         
-        // Meldungsinformationen
-        info.append("<b>Gemeldet am:</b> ").append(geisternetzListe.getFormatierteMeldungsDatum(netz)).append("<br>");
+        if (netz.getNetzStatus() == NetzStatus.GEMELDET) {
+            if (!meldungsController.istAnonymGemeldet(netz)) {
+                Person melder = meldungsController.getErstenMelder(netz);
+                if (melder != null) {
+                    info.append("<b>Melder:</b> ").append(melder.getName()).append("<br>");
+                }
+            } else {
+                info.append("<b>Melder:</b> Anonym<br>");
+            }
+        }
+        
+        
+        
+        
+        
         
         // Bergungsinformationen je nach Status
         if (netz.getNetzStatus() == NetzStatus.BERGUNGBEVORSTEHEND) {

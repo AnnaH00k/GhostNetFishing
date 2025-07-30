@@ -84,7 +84,6 @@ public class GeisternetzListe implements Serializable {
         return NetzStatus.values();
     }
     
-    // ===== ZUSÄTZLICHE METHODEN FÜR MELDEN =====
     
     public void geisternetzHinzufuegen(Geisternetz geisternetz) {
         if (geisternetz != null) {
@@ -102,43 +101,7 @@ public class GeisternetzListe implements Serializable {
         return geisternetzDAO;
     }
     
-    public List<Meldung> getMeldungenFuerGeisternetz(Geisternetz geisternetz) {
-        return meldungDAO.getMeldungenByGeisternetz(geisternetz);
-    }
-    
-    public int getAnzahlMeldungen(Geisternetz geisternetz) {
-        return getMeldungenFuerGeisternetz(geisternetz).size();
-    }
-    
-    public boolean istAnonymGemeldet(Geisternetz geisternetz) {
-        List<Meldung> meldungen = getMeldungenFuerGeisternetz(geisternetz);
-        return meldungen.stream().allMatch(Meldung::isAnonym);
-    }
-    
-    public Person getErstenMelder(Geisternetz geisternetz) {
-        List<Meldung> meldungen = getMeldungenFuerGeisternetz(geisternetz);
-        return meldungen.stream()
-        			   .filter(m -> !m.isAnonym() && m.getMelder() != null)
-                       .map(Meldung::getMelder)
-                       .findFirst()
-                       .orElse(null);
-    }
-    
-    public LocalDateTime getErsteMeldungsDatum(Geisternetz geisternetz) {
-        List<Meldung> meldungen = getMeldungenFuerGeisternetz(geisternetz);
-        return meldungen.stream()
-                       .map(Meldung::getMeldungsDatum)
-                       .min(LocalDateTime::compareTo)
-                       .orElse(null);
-    }
-    
-    public String getFormatierteMeldungsDatum(Geisternetz geisternetz) {
-        LocalDateTime datum = getErsteMeldungsDatum(geisternetz);
-        if (datum != null) {
-            return datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-        }
-        return "Unbekannt";
-    }
+  
     
     
     
@@ -192,7 +155,7 @@ public class GeisternetzListe implements Serializable {
             
             List<Bergung> bergungen = getBergungenFuerGeisternetz(geisternetz);
             Bergung aktiveBergung = bergungen.stream()
-                .filter(b -> b.getTatsaechlicheBergung() == null) // Noch nicht abgeschlossen
+                .filter(b -> b.getTatsaechlicheBergung() == null) 
                 .findFirst()
                 .orElse(null);
                 
@@ -288,7 +251,6 @@ public class GeisternetzListe implements Serializable {
     
     
     
- // Ergänzung für die GeisternetzListe Klasse
 
     private List<Geisternetz> filteredGeisternetze;
 
@@ -300,14 +262,12 @@ public class GeisternetzListe implements Serializable {
         this.filteredGeisternetze = filteredGeisternetze;
     }
 
-    // Methode zum Abrufen nur der Geisternetze mit Status WIRDGEBORGEN
     public List<Geisternetz> getGeisternetzeWirdGeborgen() {
         return getGeisternetze().stream()
             .filter(g -> g.getNetzStatus() == NetzStatus.BERGUNGBEVORSTEHEND)
             .collect(java.util.stream.Collectors.toList());
     }
 
-    // Zusätzliche Hilfsmethoden für die Tabelle
     public long getAnzahlAktiverBergungen() {
         return getGeisternetze().stream()
             .filter(g -> g.getNetzStatus() == NetzStatus.BERGUNGBEVORSTEHEND)

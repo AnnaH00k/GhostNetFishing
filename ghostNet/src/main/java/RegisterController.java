@@ -9,7 +9,6 @@ import jakarta.inject.Named;
 @Named
 @RequestScoped
 public class RegisterController implements Serializable {
-    
     private static final long serialVersionUID = 1L;
 
     @Inject
@@ -20,7 +19,6 @@ public class RegisterController implements Serializable {
     
     private String passwortBestaetigung;
     private String fehlermeldung;
-    
     private static final List<String> DEFAULT_IMAGES = Arrays.asList(
         "https://t4.ftcdn.net/jpg/02/53/61/69/360_F_253616948_za22DUrpvoM6aBDyPZxXDXf1OVNZFhL4.jpg",
         "https://www.aqueon.com/-/media/project/oneweb/aqueon/us/blog/top-5-aggressive-fish-tank-species-for-your-home-aquarium/shutterstock-2175454025-web.jpg",
@@ -28,7 +26,6 @@ public class RegisterController implements Serializable {
         "https://www.marlinmag.com/wp-content/uploads/2023/10/black-marlin-hooked-panama-tropic-star-lodge-1024x768.jpg",
         "https://cdn.prod.www.spiegel.de/images/b237b5e1-2d68-41d9-b233-4e7ff03514d5_w960_r1.778_fpx48_fpy49.jpg"
     );
-    
     private Random random = new Random();
     
     public RegisterController() {
@@ -40,7 +37,7 @@ public class RegisterController implements Serializable {
         fehlermeldung = "";
         
         if (!validiereEingaben()) {
-            return null; // Stay on the same page
+            return null; 
         }
         
         
@@ -49,28 +46,22 @@ public class RegisterController implements Serializable {
             neuePerson.setBild(getRandomImage());
         }
         
-        
-        
         try {
-            // Add the new person to the database
             personenListe.personHinzufuegen();
             
-            // Get the newly created person (last one added)
             List<Person> personen = personenListe.getPersonen();
             Person neuerNutzer = personen.get(personen.size() - 1);
             
-            // Automatically log in the newly registered user
             loginController.setAktuellerNutzer(neuerNutzer);
             loginController.setEingeloggt(true);
             
-            // Clear form fields
             clearForm();
             
             return "dashboard.xhtml?faces-redirect=true";
             
         } catch (Exception e) {
             fehlermeldung = "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.";
-            e.printStackTrace(); // For debugging
+            e.printStackTrace(); 
             return null;
         }
     }
@@ -78,7 +69,6 @@ public class RegisterController implements Serializable {
     private void clearForm() {
         this.passwortBestaetigung = "";
         this.fehlermeldung = "";
-        // Reset the neuePerson object in PersonenListe
         personenListe.setNeuePerson(new Person());
     }
    
@@ -91,7 +81,6 @@ public class RegisterController implements Serializable {
         boolean isValid = true;
         StringBuilder fehler = new StringBuilder();
         
-        // Validate name
         if (neuePerson.getName() == null || neuePerson.getName().trim().isEmpty()) {
             fehler.append("Name ist ein Pflichtfeld. ");
             isValid = false;
@@ -100,13 +89,11 @@ public class RegisterController implements Serializable {
             isValid = false;
         }
         
-        // Validate role
         if (neuePerson.getRollenTyp() == null) {
             fehler.append("Bitte wählen Sie eine Rolle aus. ");
             isValid = false;
         }
         
-        // Validate password
         if (neuePerson.getPasswort() == null || neuePerson.getPasswort().trim().isEmpty()) {
             fehler.append("Passwort ist ein Pflichtfeld. ");
             isValid = false;
@@ -115,7 +102,6 @@ public class RegisterController implements Serializable {
             isValid = false;
         }
         
-        // Validate password confirmation
         if (passwortBestaetigung == null || passwortBestaetigung.trim().isEmpty()) {
             fehler.append("Passwort-Bestätigung ist ein Pflichtfeld. ");
             isValid = false;
@@ -125,7 +111,6 @@ public class RegisterController implements Serializable {
         }
              
         
-     // Validate phone number
         if (neuePerson.getTelefonnummer() != null && !neuePerson.getTelefonnummer().trim().isEmpty()) {
             String telefon = neuePerson.getTelefonnummer().trim();
             if (!telefon.matches("[0-9+\\-\\s()]+")) {
@@ -137,10 +122,6 @@ public class RegisterController implements Serializable {
             }
         } 
         
-        
-        
-        
-        // Check if name already exists
         if (isValid && neuePerson.getName() != null && !neuePerson.getName().trim().isEmpty()) {
             if (nameExistiertBereits(neuePerson.getName().trim())) {
                 fehler.append("Ein Nutzer mit diesem Namen existiert bereits. ");
@@ -160,7 +141,6 @@ public class RegisterController implements Serializable {
             .anyMatch(person -> person.getName().equals(name));
     }
     
-    // Getters and Setters
     public String getPasswortBestaetigung() {
         return passwortBestaetigung;
     }

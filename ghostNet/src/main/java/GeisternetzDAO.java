@@ -86,6 +86,19 @@ public class GeisternetzDAO {
         return entityManager.createQuery("SELECT DISTINCT a.bild FROM Geisternetz a", String.class)
             .getResultList();
     }
+    
+    public void updateGeisternetz(Geisternetz netz) {
+        EntityTransaction t = entityManager.getTransaction();
+        try {
+            t.begin();
+            entityManager.merge(netz);
+            t.commit();
+        } catch (Exception e) {
+            if (t.isActive()) t.rollback();
+            throw e;
+        }
+    }
+
 
     public EntityTransaction getAndBeginTransaction() {
         EntityTransaction tran = entityManager.getTransaction();
@@ -162,6 +175,13 @@ public class GeisternetzDAO {
         entityManager.merge(bergung);
     }
     
+    public void persist(Verschollen verschollen) {
+        entityManager.persist(verschollen);
+    }
+
+    public void merge(Verschollen verschollen) {
+        entityManager.merge(verschollen);
+    }
     
     
     

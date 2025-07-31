@@ -21,9 +21,7 @@ public class Verschollen implements Serializable {
     private LocalDateTime meldungsDatum;
 
     
-    private String telefonnummer; // Redundant, aber für Sicherheit
     
-    private String grund; // Grund für Verschollen-Meldung
     
    
     
@@ -33,8 +31,6 @@ public class Verschollen implements Serializable {
     public Verschollen(Geisternetz geisternetz, Person melder, String grund) {
         this.geisternetz = geisternetz;
         this.melder = melder;
-        this.telefonnummer = melder.getTelefonnummer();
-        this.grund = grund;
         this.meldungsDatum = LocalDateTime.now();
     }
     
@@ -50,10 +46,8 @@ public class Verschollen implements Serializable {
     public LocalDateTime getMeldungsDatum() { return meldungsDatum; }
     public void setMeldungsDatum(LocalDateTime meldungsDatum) { this.meldungsDatum = meldungsDatum; }
     
-    public String getTelefonnummer() { return telefonnummer; }
-    public void setTelefonnummer(String telefonnummer) { this.telefonnummer = telefonnummer; }
+  
     
-    public String getGrund() { return grund; }
-    public void setGrund(String grund) { this.grund = grund; }
+   
     
 }

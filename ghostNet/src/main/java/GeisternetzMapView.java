@@ -1,8 +1,10 @@
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -15,6 +17,10 @@ public class GeisternetzMapView implements Serializable {
 
     private MapModel geisternetzModel;
     private Marker selectedMarker;
+    private Geisternetz selectedGeisternetz;
+
+    @Inject
+    private GeisternetzDAO geisternetzDAO;
 
     @Inject
     private GeisternetzListe geisternetzListe;
@@ -24,9 +30,17 @@ public class GeisternetzMapView implements Serializable {
     
     @Inject
     private BergungsController bergungsController;
+    
+    @Inject
+    private VerschollenDAO verschollenDAO;
 
     @PostConstruct
     public void init() {
+        refreshMapModel();
+    }
+    
+    // Method to refresh the map model - call this after status changes
+    public void refreshMapModel() {
         geisternetzModel = new DefaultMapModel();
 
         for (Geisternetz netz : geisternetzListe.getGeisternetze()) {
@@ -34,7 +48,6 @@ public class GeisternetzMapView implements Serializable {
 
             LatLng koordinaten = new LatLng(netz.getLat(), netz.getLng());
             String statusColor = getStatusColor(netz.getNetzStatus());
-            String statusIcon = getStatusIcon(netz.getNetzStatus());
             String info = createInfoString(netz);
             
             Marker marker = new Marker(koordinaten, String.valueOf(netz.getNr()), info);
@@ -66,10 +79,22 @@ public class GeisternetzMapView implements Serializable {
             }
         }
         
-        
-        
-        
-        
+        // Verschollen information
+        if (netz.getNetzStatus() == NetzStatus.VERSCHOLLEN) {
+            List<Verschollen> verschollenMeldungen = verschollenDAO.getVerschollenMeldungenByGeisternetz(netz);
+            if (!verschollenMeldungen.isEmpty()) {
+                Verschollen ersteMeldung = verschollenMeldungen.get(0);
+                info.append("<b>Als verschollen gemeldet am:</b> ");
+                info.append(ersteMeldung.getMeldungsDatum().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                info.append("<br>");
+                
+                if (ersteMeldung.getMelder() != null) {
+                    info.append("<b>Verschollen gemeldet von:</b> ").append(ersteMeldung.getMelder().getName()).append("<br>");
+                } else {
+                    info.append("<b>Verschollen gemeldet von:</b> Anonym<br>");
+                }
+            }
+        }
         
         // Bergungsinformationen je nach Status
         if (netz.getNetzStatus() == NetzStatus.BERGUNGBEVORSTEHEND) {
@@ -108,35 +133,28 @@ public class GeisternetzMapView implements Serializable {
             case GEMELDET:
                 return "red";
             case BERGUNGBEVORSTEHEND:
-                return "yellow";
+                return "purple";
             case GEBORGEN:
-                return "green";
+                return "blue";
+            case VERSCHOLLEN:
+                return "orange";
             default:
                 return "red";
         }
     }
     
-    private String getStatusIcon(NetzStatus status) {
-        switch (status) {
-            case GEMELDET:
-                return "exclamation";
-            case BERGUNGBEVORSTEHEND:
-                return "clock";
-            case GEBORGEN:
-                return "check";
-            default:
-                return "exclamation";
-        }
-    }
+ 
     
     private String getStatusTextColor(NetzStatus status) {
         switch (status) {
             case GEMELDET:
                 return "#d32f2f";
             case BERGUNGBEVORSTEHEND:
-                return "#f57c00";
+                return "#8A2BE2";
             case GEBORGEN:
-                return "#388e3c";
+                return "#4169E1";
+            case VERSCHOLLEN:
+                return "#FFA500"; 
             default:
                 return "#d32f2f";
         }
@@ -150,6 +168,8 @@ public class GeisternetzMapView implements Serializable {
                 return "Wird geborgen";
             case GEBORGEN:
                 return "Geborgen";
+            case VERSCHOLLEN:
+                return "Verschollen";
             default:
                 return status.toString();
         }
@@ -171,6 +191,17 @@ public class GeisternetzMapView implements Serializable {
                 System.err.println("Fehler beim Parsen der Geisternetz-Nummer: " + selectedMarker.getTitle());
             }
         }
+    }
+    public void forceMapRefresh() {
+        // Clear the current model
+        geisternetzModel = null;
+        
+        // Reinitialize
+        init();
+        
+        // Force JSF to update the view
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getPartialViewContext().getRenderIds().add("@form");
     }
 
     public Marker getSelectedMarker() {

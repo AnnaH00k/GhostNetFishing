@@ -10,20 +10,19 @@ import jakarta.persistence.EntityTransaction;
 @SessionScoped
 public class LoginController implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    private String benutzernameEingabe;
-    private String passwortEingabe;
-    private String fehlermeldung;
     
-    private Person aktuellerNutzer;
-    private boolean eingeloggt = false;
-
     @Inject
     private PersonenListe personenListe;
     
     @Inject
     private PersonDAO personDAO;  
     
+
+    private String benutzernameEingabe;
+    private String passwortEingabe;
+    private String fehlermeldung;
+    private Person aktuellerNutzer;
+    private boolean eingeloggt = false;
 
     public String login() {
         for (Person p : personenListe.getPersonen()) {
@@ -60,9 +59,7 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler beim Speichern!", null));
         }
-    }
-    
-    
+    }    
     
     public String werdeMeldendePerson() {
         try {
@@ -101,9 +98,6 @@ public class LoginController implements Serializable {
         }
     }
     
-    
-   
-    
     public String logout() {
         this.aktuellerNutzer = null;
         this.eingeloggt = false;
@@ -114,8 +108,6 @@ public class LoginController implements Serializable {
         return "landingpage.xhtml?faces-redirect=true";
     }
     
-    
-
     public String getBenutzernameEingabe() {
         return benutzernameEingabe;
     }

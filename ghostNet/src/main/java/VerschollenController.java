@@ -26,10 +26,9 @@ public class VerschollenController implements Serializable {
     @Inject
     private GeisternetzMapView geisternetzMapView;
 
-    public void verschollenMelden() {
+    public void verschollenMelden(Geisternetz netz) {
         Person melder = loginController.getAktuellerNutzer();
 
-        // Validate user and phone number
         if (melder == null || melder.getTelefonnummer() == null || melder.getTelefonnummer().isBlank()) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -37,27 +36,31 @@ public class VerschollenController implements Serializable {
             return;
         }
 
-        // Get selected ghost net
-        Geisternetz netz = geisternetzMapView.getSelectedGeisternetz();
-        if (netz == null) {
+         if (netz == null) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Warnung", "Kein Geisternetz ausgewählt."));
             return;
         }
 
-        // Check if net is already reported as missing
         if (netz.getNetzStatus() == NetzStatus.VERSCHOLLEN) {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Warnung", "Dieses Geisternetz ist bereits als verschollen gemeldet."));
             return;
         }
+        if (netz.getNetzStatus() == NetzStatus.GEBORGEN) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Information", "Dieses Geisternetz wurde bereits geborgen und kann nicht als verschollen gemeldet werden."));
+            return;
+        }
+        
+        
+        
 
-        // Use transaction to ensure both operations succeed or fail together
         EntityTransaction transaction = geisternetzDAO.getAndBeginTransaction();
         try {
-            // Create and persist the missing report
             Verschollen meldung = new Verschollen();
             meldung.setGeisternetz(netz);
             meldung.setMelder(melder);
@@ -65,14 +68,11 @@ public class VerschollenController implements Serializable {
             
             geisternetzDAO.persist(meldung);
 
-            // Update the net status to VERSCHOLLEN
             netz.setNetzStatus(NetzStatus.VERSCHOLLEN);
             geisternetzDAO.merge(netz);
 
-            // Commit transaction
             transaction.commit();
 
-            // Refresh the map to show the updated status
             geisternetzMapView.refreshMapModel();
 
             FacesContext.getCurrentInstance().addMessage(null,
@@ -80,7 +80,6 @@ public class VerschollenController implements Serializable {
                     "Erfolg", "Geisternetz wurde erfolgreich als verschollen gemeldet."));
 
         } catch (Exception e) {
-            // Rollback transaction on error
             if (transaction.isActive()) {
                 transaction.rollback();
             }
@@ -92,5 +91,9 @@ public class VerschollenController implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Fehler", "Fehler beim Melden als verschollen: " + e.getMessage()));
         }
+    }
+    public void verschollenMelden() {
+        Geisternetz netz = geisternetzMapView.getSelectedGeisternetz();
+        verschollenMelden(netz);
     }
 }

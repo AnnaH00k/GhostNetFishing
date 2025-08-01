@@ -14,112 +14,97 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:body>
 
-<!-- Content when user is logged in -->
 <h:form rendered="#{loginController.eingeloggt}" style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; top:0">
+    <h:commandLink action="profilBearbeiten.xhtml?faces-redirect=true" style="border: none; background: none;">
+        <p:avatar size="xlarge" shape="circle" styleClass="shadow-4 cursor-pointer">
+            <p:graphicImage value="#{loginController.aktuellerNutzer.bild}"
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+        </p:avatar>
+    </h:commandLink>
+    
+    <ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
+        <h1>Willkommen bei Shea Sepherd #{loginController.aktuellerNutzer.name}!</h1>
+    </ui:fragment>
+    <ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'MELDEND'}">
+        <h1>Beginne mit dem Melden #{loginController.aktuellerNutzer.name}!</h1>
+    </ui:fragment>
+    <ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
+        <h1>Bereit für die Bergung #{loginController.aktuellerNutzer.name}!</h1>
+    </ui:fragment>
 
-<h:commandLink action="profilBearbeiten.xhtml?faces-redirect=true" style="border: none; background: none;">
-<p:avatar size="xlarge" shape="circle" styleClass="shadow-4 cursor-pointer">
-<p:graphicImage value="#{loginController.aktuellerNutzer.bild}"
-style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-</p:avatar>
-</h:commandLink>
-<ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
-<h1 >Willkommen bei Shea Sepherd #{loginController.aktuellerNutzer.name}!</h1>
-</ui:fragment>
-<ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'MELDEND'}">
-<h1 >Beginne mit dem Melden #{loginController.aktuellerNutzer.name}!</h1>
-</ui:fragment>
-<ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
-<h1 >Bereit für die Bergung #{loginController.aktuellerNutzer.name}!</h1>
-</ui:fragment>
-
-<p:button outcome="landingpage" icon="pi pi-info" style="margin:1rem; "/>
-
-<!-- Logout Button -->
-<p:commandButton value="Abmelden" 
-                 icon="pi pi-sign-out" 
-                 action="#{loginController.logout}" 
-                 styleClass="p-button-secondary"
-                 style="margin:1rem;"
-                 title="Ausloggen" />
-
+    <p:button outcome="landingpage" icon="pi pi-info" style="margin:1rem;" />
+    <p:commandButton value="Abmelden" 
+                     icon="pi pi-sign-out" 
+                     action="#{loginController.logout}" 
+                     styleClass="p-button-secondary"
+                     style="margin:1rem;"
+                     title="Ausloggen" />
 </h:form>
 
+
+
 <h:form rendered="#{loginController.nichtEingeloggt}" style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
-
-<h1>Bitte melden Sie sich an</h1>
-<p style="font-size: 1.2rem; color: #666;">Sie müssen sich zuerst anmelden, um das Dashboard zu verwenden.</p>
-
-<p:button outcome="login" 
-          value="Zur Anmeldung" 
-          icon="pi pi-sign-in" 
-          styleClass="p-button-lg p-button-primary"
-          style="margin:1rem; padding: 1rem 2rem;" />
-
+    <h1>Bitte melden Sie sich an</h1>
+    <p style="font-size: 1.2rem; color: #666;">Sie müssen sich zuerst anmelden, um das Dashboard zu verwenden.</p>
+    <p:button outcome="login" 
+              value="Zur Anmeldung" 
+              icon="pi pi-sign-in" 
+              styleClass="p-button-lg p-button-primary"
+              style="margin:1rem; padding: 1rem 2rem;" />
 </h:form>
 
 
 
 <h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
-<h:form rendered="#{loginController.eingeloggt}">
-<div>
-<p:gmap id="geisternetzMap"
-center="20.0,0.0"
-zoom="2"
-type="ROADMAP"
-model="#{geisternetzMapView.geisternetzModel}"
-style="width:100vw;height:70vh"
-widgetVar="gmap">
+    <h:form>
+        <p:gmap id="geisternetzMap"
+                center="20.0,0.0"
+                zoom="2"
+                type="ROADMAP"
+                model="#{geisternetzMapView.geisternetzModel}"
+                style="width:100vw;height:70vh"
+                widgetVar="gmap">
+            <p:ajax event="overlaySelect"
+                    listener="#{geisternetzMapView.onMarkerSelect}"
+                    update="geisternetzInfoDialog"
+                    oncomplete="PF('infoDialog').show()" />
+        </p:gmap>
 
-<p:ajax event="overlaySelect"
-listener="#{geisternetzMapView.onMarkerSelect}"
-update="geisternetzInfoDialog"
-oncomplete="PF('infoDialog').show()" />
-</p:gmap>
-
-<p:dialog header="Geisternetz-Information"
-widgetVar="infoDialog"
-id="geisternetzInfoDialog"
-modal="true"
-closable="true"
-draggable="false"
-resizable="false"
-width="350">
-<h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
-<h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
-                          and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
-		    
-	<h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
-		           value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
-		           style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
-		
-	<p:commandButton id="verschollenBtn"
-		             value="Als verschollen melden"
-		             icon="pi pi-exclamation-triangle"
-		             action="#{verschollenController.verschollenMelden}"
-		             styleClass="p-button-warning"
-		             style="margin-top:1rem;"
-		             update="geisternetzInfoDialog geisternetzMap"
-		             onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
-		             disabled="#{empty loginController.aktuellerNutzer.telefonnummer}" />
+        <p:dialog header="Geisternetz-Information"
+                  widgetVar="infoDialog"
+                  id="geisternetzInfoDialog"
+                  modal="true"
+                  closable="true"
+                  draggable="false"
+                  resizable="false"
+                  width="350">
+            <h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
+            
+            <h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
+                                      and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
+                <h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
+                              value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
+                              style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
+                
+                <p:commandButton id="verschollenBtn"
+                                 value="Als verschollen melden"
+                                 icon="pi pi-exclamation-triangle"
+                                 action="#{verschollenController.verschollenMelden(geisternetzMapView.selectedGeisternetz)}"
+                                 styleClass="p-button-warning"
+                                 style="margin-top:1rem;"
+                                 update="geisternetzInfoDialog geisternetzMap"
+                                 onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
+                                 disabled="#{empty loginController.aktuellerNutzer.telefonnummer}" />
+            </h:panelGroup>
+        </p:dialog>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5px; padding: 10px; position:fixed; justify-content:center; height: 15vh; width: 100vw; bottom:0;">
+            <h:outputText style="text-align: center; grid-column: span 2;" value="Klicke auf die Punkte der Karte um zu stöbern was schon alles gemeldet wurde. Und werde Aktiv im Schützen unserer Meere." />
+            <p:button outcome="meldenInfo" value="Meldende Person werden" />
+            <p:button outcome="bergenInfo" value="Bergende Person werden" />
+        </div>
+    </h:form>
 </h:panelGroup>
-</p:dialog>
-<div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5px; padding: 10px;  position:fixed; justify-content:center; height: 15vh; width: 100vw; bottom:0;">
-	<h:outputText style="text-align: center; grid-column: span 2;" value="Klicke auf die Punkte der Karte um zu stöbern was schon alles gemeldet wurde. Und werde Aktiv im Schützen unserer Meere." />
-	<p:button outcome="meldenInfo" value="Meldende Person werden" />
-	<p:button outcome="bergenInfo" value="Bergende Person werden" />
-	
-	
-	</div>
-</div>
-
-
-
-</h:form>
-</h:panelGroup>
-
-
-
 
 
 
@@ -129,57 +114,56 @@ width="350">
 
 
 <h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'MELDEND'}">
-	<h:form rendered="#{loginController.eingeloggt}">
-		<div>
-			<p:gmap id="geisternetzMap"
-			center="20.0,0.0"
-			zoom="2"
-			type="ROADMAP"
-			model="#{geisternetzMapView.geisternetzModel}"
-			style="width:100vw;height:70vh"
-			widgetVar="gmap">
-			
-				<p:ajax event="overlaySelect"
-				listener="#{geisternetzMapView.onMarkerSelect}"
-				update="geisternetzInfoDialog"
-				oncomplete="PF('infoDialog').show()" />
-			</p:gmap>
-		
-			<p:dialog header="Geisternetz-Information"
-			widgetVar="infoDialog"
-			id="geisternetzInfoDialog"
-			modal="true"
-			closable="true"
-			draggable="false"
-			resizable="false"
-			width="350">
-				<h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
-				<h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
-                          and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
-		    
-		    <h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
-		                  value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
-		                  style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
-		
-		    <p:commandButton id="verschollenBtn"
-		                     value="Als verschollen melden"
-		                     icon="pi pi-exclamation-triangle"
-		                     action="#{verschollenController.verschollenMelden}"
-		                     styleClass="p-button-warning"
-		                     style="margin-top:1rem;"
-		                     update="geisternetzInfoDialog geisternetzMap"
-		                     onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
-		                     disabled="#{empty loginController.aktuellerNutzer.telefonnummer}" />
-		</h:panelGroup>
-
-		</p:dialog>
-		</div>
-		<div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; width: 100vw; bottom:0">
-			<p:button outcome="melden" value="Geisternetz melden" />
-			<p:button outcome="bergenInfo" value="Bergende Person werden" />
-		</div>
-	</h:form>
+    <h:form>
+        <p:gmap id="geisternetzMap"
+                center="20.0,0.0"
+                zoom="2"
+                type="ROADMAP"
+                model="#{geisternetzMapView.geisternetzModel}"
+                style="width:100vw;height:70vh"
+                widgetVar="gmap">
+            <p:ajax event="overlaySelect"
+                    listener="#{geisternetzMapView.onMarkerSelect}"
+                    update="geisternetzInfoDialog"
+                    oncomplete="PF('infoDialog').show()" />
+        </p:gmap>
+        
+        <p:dialog header="Geisternetz-Information"
+                  widgetVar="infoDialog"
+                  id="geisternetzInfoDialog"
+                  modal="true"
+                  closable="true"
+                  draggable="false"
+                  resizable="false"
+                  width="350">
+            <h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
+            
+            <h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
+                                      and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
+                <h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
+                              value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
+                              style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
+                
+                <p:commandButton id="verschollenBtn"
+                                 value="Als verschollen melden"
+                                 icon="pi pi-exclamation-triangle"
+                                 action="#{verschollenController.verschollenMelden(geisternetzMapView.selectedGeisternetz)}"
+                                 styleClass="p-button-warning"
+                                 style="margin-top:1rem;"
+                                 update="geisternetzInfoDialog geisternetzMap"
+                                 onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
+                                 disabled="#{empty loginController.aktuellerNutzer.telefonnummer}" />
+            </h:panelGroup>
+        </p:dialog>
+        
+        <div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; width: 100vw; bottom:0">
+            <p:button outcome="melden" value="Geisternetz melden" />
+            <p:button outcome="bergenInfo" value="Bergende Person werden" />
+        </div>
+    </h:form>
 </h:panelGroup>
+
+
 
 
 
@@ -187,207 +171,171 @@ width="350">
 
 
 <h:panelGroup rendered="#{loginController.eingeloggt and loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
-    <h:form rendered="#{loginController.eingeloggt}">
+    <h:form>
+        <p:gmap id="geisternetzMap"
+                center="20.0,0.0"
+                zoom="2"
+                type="ROADMAP"
+                model="#{geisternetzMapView.geisternetzModel}"
+                style="width:100vw;height:70vh"
+                widgetVar="gmap">
+            <p:ajax event="overlaySelect" 
+                    listener="#{geisternetzMapView.onMarkerSelect}"
+                    update="geisternetzInfoDialog"
+            		oncomplete="#{bergungsController.setAktuellesGeisternetz(geisternetzMapView.selectedGeisternetz)}; PF('infoDialog').show()" />
+        </p:gmap>
         
-        <div>
-            <p:gmap id="bergungsMap"
-                    center="20.0,0.0"
-                    zoom="2"
-                    type="ROADMAP"
-                    model="#{geisternetzMapView.geisternetzModel}"
-                    style="width:100vw;height:70vh"
-                    widgetVar="bergungsGmap">
-                
-                <p:ajax event="overlaySelect" 
-                        listener="#{geisternetzMapView.onMarkerSelect}"
-                        update="bergungsDialog"
-                        oncomplete="PF('bergungsDialog').show()" />
-            </p:gmap>
-        </div>
+        
 
-        <!-- Dialog für Geisternetz-Bergung -->
-        <p:dialog header="Geisternetz-Bergung" 
-                  widgetVar="bergungsDialog"
-                  id="bergungsDialog"
-                  modal="true"
-                  closable="true"
-                  draggable="false"
-                  resizable="false"
-                  width="500"
-                  responsive="true"
-                  style="max-height: 80vh; overflow-y: auto;">
-            
-            <h:panelGroup rendered="#{bergungsController.aktuellesGeisternetz != null}">
-                <!-- Geisternetz-Informationen anzeigen -->
-                <div style="margin-bottom: 1rem; padding: 1rem; border-radius: 6px;">
-                    <h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
-                    <h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
-                                  and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
-                        
-                        <h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
-                                      value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
-                                      style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
+<p:dialog header="Geisternetz-Bergung" 
+          widgetVar="infoDialog"
+          id="geisternetzInfoDialog"
+          modal="true"
+          closable="true"
+          draggable="false"
+          resizable="false"
+          width="500"
+          responsive="true"
+          style="max-height: 80vh; overflow-y: auto;">
+    
+    <h:outputText value="#{geisternetzMapView.selectedMarker.data}" escape="false" />
+    
+    <h:panelGroup rendered="#{geisternetzMapView.selectedGeisternetz.netzStatus ne 'VERSCHOLLEN'
+                              and geisternetzMapView.selectedGeisternetz.netzStatus ne 'GEBORGEN'}">
+        <h:outputText rendered="#{empty loginController.aktuellerNutzer.telefonnummer}"
+                      value="⚠ Um ein Geisternetz als verschollen zu melden, fügen Sie bitte Ihre Telefonnummer im Profil hinzu."
+                      style="color: #f57c00; font-size: 0.9rem; display:block; margin-bottom: 0.5rem;" />
+        
+        <p:commandButton id="verschollenBtn"
+                         value="Als verschollen melden"
+                         icon="pi pi-exclamation-triangle"
+                         action="#{verschollenController.verschollenMelden(geisternetzMapView.selectedGeisternetz)}"
+                         styleClass="p-button-warning"
+                         style="margin-top:1rem;"
+						 update="geisternetzInfoDialog geisternetzMap"
+                         oncomplete="PF('infoDialog').hide();"
+                         onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
+                         disabled="#{empty loginController.aktuellerNutzer.telefonnummer}"
+                         immediate="true" />
+                         
+    </h:panelGroup>
+
+    <h:panelGroup id="bergungsAktionenWrapper">
+        <h4>Bergungsaktionen</h4>
+        
+        <h:panelGroup rendered="#{bergungsController.kannFuerBergungAnmelden()}">
+            <p:fieldset legend="Für Bergung anmelden" style="margin-bottom: 1rem;">
+                <h:panelGrid columns="2" cellpadding="8" style="width: 100%;">
+                    <p:outputLabel for="geplanteDatum" value="Geplantes Bergungsdatum:" />
+                    <p:calendar id="geplanteDatum" 
+                               value="#{bergungsController.geplanteBergung}" 
+                               pattern="dd.MM.yyyy"
+                               showTime="true"
+                               required="true"
+                               showOn="button"
+                               requiredMessage="Bitte geben Sie ein geplantes Datum an."
+                               style="width: 100%;"/>
+                </h:panelGrid>
                 
-                        <p:commandButton id="verschollenBtn"
-                                         value="Als verschollen melden"
-                                         icon="pi pi-exclamation-triangle"
-                                         action="#{verschollenController.verschollenMelden}"
-                                         styleClass="p-button-warning"
-                                         style="margin-top:1rem;"
-                                         update="bergungsDialog bergungsMap"
-                                         onclick="return confirm('Möchten Sie dieses Geisternetz wirklich als verschollen melden?')"
-                                         disabled="#{empty loginController.aktuellerNutzer.telefonnummer}" />
-                    </h:panelGroup>   
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #dee2e6;">
+                    <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 1rem;">
+                        <i class="pi pi-info-circle"></i> 
+                        Nach der Anmeldung können Sie die Bergung durchführen und abschließen.
+                    </p>
                 </div>
+                
+                <div class="bergung-buttons">
+                    <p:commandButton value="Für Bergung anmelden" 
+                                   action="#{bergungsController.fuerBergungAnmelden()}"
+                                   icon="pi pi-calendar-plus"
+                                   styleClass="p-button-success"
+                                   update="@all"
+                                   onclick="return confirm('Möchten Sie sich für diese Bergung anmelden?')" 
+                                   oncomplete="if (!args.validationFailed) window.location.reload();"/>
+                </div>
+            </p:fieldset>
+        </h:panelGroup>
 
-                <!-- Bergungsformular -->
-                <div class="bergung-form">
-                    <h4>Bergungsaktionen</h4>
+        <h:panelGroup rendered="#{bergungsController.kannBergungAbgeschlossenWerden()}">
+            <p:fieldset legend="Bergung abschließen" 
+                       styleClass="status-wirdgeborgen"
+                       style="margin-bottom: 1rem;">
+                
+                <p:panel styleClass="ui-panel-content">
+                    <p style="margin-bottom: 1rem;">
+                        <strong>Geplantes Datum:</strong> 
+                        <span style="color: #3498db;">
+                            #{geisternetzListe.getFormatiertesGeplanteDatum(bergungsController.aktuellesGeisternetz)}
+                        </span>
+                    </p>
+                    <p style="margin-bottom: 1rem;">
+                        <strong>Berger:</strong> 
+                       <h:outputText value="#{geisternetzListe.getErstenBerger(bergungsController.aktuellesGeisternetz).name}" />
+                    </p>
+                    <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 0;">
+                        <i class="pi pi-clock"></i> 
+                        Bergung in Bearbeitung - bitte nach Abschluss als beendet markieren.
+                    </p>
+                </p:panel>
+                
+                <div class="bergung-buttons">
+                    <p:commandButton value="Bergung abschließen" 
+                                   action="#{bergungsController.bergungAbschliessen()}"
+                                   icon="pi pi-check"
+                                   styleClass="p-button-success"
+						 		   update="geisternetzInfoDialog geisternetzMap"
+                                   onclick="return confirm('Möchten Sie diese Bergung als erfolgreich abgeschlossen markieren?')" 
+                                   oncomplete="if (!args.validationFailed) window.location.reload();"/>
                     
-                    <!-- Anmeldung für Bergung (nur wenn Status GEMELDET) -->
-                    <h:panelGroup rendered="#{bergungsController.kannFuerBergungAnmelden()}">
-                        <p:fieldset legend="Für Bergung anmelden" 
-                                   styleClass="status-gemeldet"
-                                   style="margin-bottom: 1rem;">
-                            
-                            <h:panelGrid columns="2" cellpadding="8" style="width: 100%;">
-                                <p:outputLabel for="geplanteDatum" value="Geplantes Bergungsdatum:" />
-                                <p:calendar id="geplanteDatum" 
-                                           value="#{bergungsController.geplanteBergung}" 
-                                           pattern="dd.MM.yyyy HH:mm"
-                                           showTime="true"
-                                           required="true"
-                                           showOn="button"
-                                           requiredMessage="Bitte geben Sie ein geplantes Datum an."
-                                           style="width: 100%;"/>
-                                
-                                <p:outputLabel for="anonym" value="Anonym bergen:" />
-                                <p:selectBooleanCheckbox id="anonym" 
-                                                       value="#{bergungsController.neueBergung.anonym}" />
-                            </h:panelGrid>
-                            
-                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #dee2e6;">
-                                <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 1rem;">
-                                    <i class="pi pi-info-circle"></i> 
-                                    Nach der Anmeldung können Sie die Bergung durchführen und abschließen.
-                                </p>
-                            </div>
-                            
-                            <div class="bergung-buttons">
-                                <p:commandButton value="Für Bergung anmelden" 
-                                               action="#{bergungsController.fuerBergungAnmelden()}"
-                                               icon="pi pi-calendar-plus"
-                                               styleClass="p-button-success"
-                                               update="bergungsDialog,bergungsMap"
-                                               oncomplete="PF('bergungsDialog').hide(); PF('bergungsGmap').reload();"
-                                               onclick="return confirm('Möchten Sie sich für diese Bergung anmelden?')" />
-                            </div>
-                        </p:fieldset>
-                    </h:panelGroup>
-
-                    <!-- Bergungsabschluss (nur wenn Status WIRDGEBORGEN und aktueller User ist der Berger) -->
-                    <h:panelGroup rendered="#{bergungsController.kannBergungAbgeschlossenWerden()}">
-                        <p:fieldset legend="Bergung abschließen" 
-                                   styleClass="status-wirdgeborgen"
-                                   style="margin-bottom: 1rem;">
-                            
-                            <p:panel styleClass="ui-panel-content">
-                                <p style="margin-bottom: 1rem;">
-                                    <strong>Geplantes Datum:</strong> 
-                                    <span style="color: #3498db;">
-                                        #{geisternetzListe.getFormatiertesGeplanteDatum(bergungsController.aktuellesGeisternetz)}
-                                    </span>
-                                </p>
-                                <p style="margin-bottom: 1rem;">
-                                    <strong>Berger:</strong> 
-                                    <h:outputText value="#{geisternetzListe.getErstenBerger(bergungsController.aktuellesGeisternetz).name}" 
-                                                 rendered="#{!geisternetzListe.istAnonymGeborgen(bergungsController.aktuellesGeisternetz)}" />
-                                    <h:outputText value="Anonym" 
-                                                 rendered="#{geisternetzListe.istAnonymGeborgen(bergungsController.aktuellesGeisternetz)}" />
-                                </p>
-                                <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 0;">
-                                    <i class="pi pi-clock"></i> 
-                                    Bergung in Bearbeitung - bitte nach Abschluss als beendet markieren.
-                                </p>
-                            </p:panel>
-                            
-                            <div class="bergung-buttons">
-                                <p:commandButton value="Bergung abschließen" 
-                                               action="#{bergungsController.bergungAbschliessen()}"
-                                               icon="pi pi-check"
-                                               styleClass="p-button-success"
-                                               update="bergungsDialog,bergungsMap"
-                                               oncomplete="PF('bergungsDialog').hide(); PF('bergungsGmap').reload();"
-                                               onclick="return confirm('Möchten Sie diese Bergung als erfolgreich abgeschlossen markieren?')" />
-                                
-                                <p:commandButton value="Bergung abbrechen" 
-                                               action="#{bergungsController.bergungAbbrechen()}"
-                                               icon="pi pi-times"
-                                               styleClass="p-button-danger"
-                                               update="bergungsDialog,bergungsMap"
-                                               oncomplete="PF('bergungsDialog').hide(); PF('bergungsGmap').reload();"
-                                               onclick="return confirm('Möchten Sie diese Bergung wirklich abbrechen? Das Geisternetz wird wieder als \\'gemeldet\\' markiert.')" />
-                            </div>
-                        </p:fieldset>
-                    </h:panelGroup>
-
-                    <!-- Information für bereits geborgene Geisternetze -->
-                    <h:panelGroup rendered="#{bergungsController.aktuellesGeisternetz != null and bergungsController.aktuellesGeisternetz.netzStatus.name() eq 'GEBORGEN'}">
-                        <p:fieldset legend="Bergung abgeschlossen" 
-                                   styleClass="status-geborgen">
-                            
-                            <div class="success-message">
-                                <i class="pi pi-check-circle"></i> 
-                                Dieses Geisternetz wurde bereits erfolgreich geborgen.
-                            </div>
-                            
-                            <p:panel style="margin-top: 1rem;">
-                                <p style="margin-bottom: 0.5rem;">
-                                    <strong>Bergungsdatum:</strong> 
-                                    <span style="color: #27ae60;">
-                                        #{geisternetzListe.getFormatiertesTatsaechlichesDatum(bergungsController.aktuellesGeisternetz)}
-                                    </span>
-                                </p>
-                                <p style="margin-bottom: 0;">
-                                    <strong>Berger:</strong> 
-                                    <h:outputText value="#{geisternetzListe.getErstenBerger(bergungsController.aktuellesGeisternetz).name}" 
-                                                 rendered="#{!geisternetzListe.istAnonymGeborgen(bergungsController.aktuellesGeisternetz)}" />
-                                    <h:outputText value="Anonym" 
-                                                 rendered="#{geisternetzListe.istAnonymGeborgen(bergungsController.aktuellesGeisternetz)}" />
-                                </p>
-                            </p:panel>
-                        </p:fieldset>
-                    </h:panelGroup>
-
-                    <!-- Keine Aktionen möglich -->
-                    <h:panelGroup rendered="#{!bergungsController.kannFuerBergungAnmelden() and !bergungsController.kannBergungAbgeschlossenWerden() and (bergungsController.aktuellesGeisternetz == null or bergungsController.aktuellesGeisternetz.netzStatus.name() ne 'GEBORGEN')}">
-                        <p:fieldset legend="Keine Aktionen verfügbar">
-                            <p style="color: #6c757d; text-align: center; margin: 1rem 0;">
-                                <i class="pi pi-info-circle"></i> 
-                                Für dieses Geisternetz sind aktuell keine Bergungsaktionen möglich.
-                            </p>
-                        </p:fieldset>
-                    </h:panelGroup>
+                    <p:commandButton value="Bergung abbrechen" 
+                                   action="#{bergungsController.bergungAbbrechen()}"
+                                   icon="pi pi-times"
+                                   styleClass="p-button-danger"
+						 		   update="geisternetzInfoDialog geisternetzMap"
+                                   onclick="return confirm('Möchten Sie diese Bergung wirklich abbrechen? Das Geisternetz wird wieder als \\'gemeldet\\' markiert.')" />
                 </div>
-            </h:panelGroup>
-            
-            <!-- Fallback wenn kein Geisternetz ausgewählt -->
-            <h:panelGroup rendered="#{bergungsController.aktuellesGeisternetz == null}">
-                <div style="text-align: center; padding: 2rem; color: #6c757d;">
-                    <i class="pi pi-map-marker" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                    <p>Wählen Sie ein Geisternetz auf der Karte aus, um Bergungsaktionen durchzuführen.</p>
-                </div>
-            </h:panelGroup>
-        </p:dialog>
+            </p:fieldset>
+        </h:panelGroup>
 
-        <!-- Fixed navigation buttons -->
+        <h:panelGroup rendered="#{bergungsController.aktuellesGeisternetz != null and bergungsController.aktuellesGeisternetz.netzStatus.name() eq 'GEBORGEN'}">
+            <p:fieldset legend="Bergung abgeschlossen" styleClass="status-geborgen">
+                <div class="success-message">
+                    <i class="pi pi-check-circle"></i> 
+                    Dieses Geisternetz wurde bereits erfolgreich geborgen.
+                </div>
+                
+                <p:panel style="margin-top: 1rem;">
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>Bergungsdatum:</strong> 
+                        <span style="color: #27ae60;">
+                            #{geisternetzListe.getFormatiertesTatsaechlichesDatum(bergungsController.aktuellesGeisternetz)}
+                        </span>
+                    </p>
+                    <p style="margin-bottom: 0;">
+                        <strong>Berger:</strong> 
+                      <h:outputText value="#{geisternetzListe.getErstenBerger(bergungsController.aktuellesGeisternetz).name}" />
+                    </p>
+                </p:panel>
+            </p:fieldset>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{!bergungsController.kannFuerBergungAnmelden() and !bergungsController.kannBergungAbgeschlossenWerden() and (bergungsController.aktuellesGeisternetz == null or bergungsController.aktuellesGeisternetz.netzStatus.name() ne 'GEBORGEN')}">
+            <p:fieldset legend="Keine Aktionen verfügbar">
+                <p style="color: #6c757d; text-align: center; margin: 1rem 0;">
+                    <i class="pi pi-info-circle"></i> 
+                    Für dieses Geisternetz sind aktuell keine Bergungsaktionen möglich.
+                </p>
+            </p:fieldset>
+        </h:panelGroup>
+    </h:panelGroup>
+</p:dialog>
+
         <div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position: fixed; justify-content: center; height: 15vh; width: 100vw; bottom: 0;">
             <p:button outcome="melden" value="Geisternetz melden" />
             <p:button outcome="bergen" value="Bergungsübersicht" />
         </div>
     </h:form>
 </h:panelGroup>
-
 
 
 </h:body>

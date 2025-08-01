@@ -14,6 +14,7 @@ import org.primefaces.model.map.Marker;
 @Named
 @ViewScoped
 public class GeisternetzMapView implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private MapModel geisternetzModel;
     private Marker selectedMarker;
@@ -39,7 +40,6 @@ public class GeisternetzMapView implements Serializable {
         refreshMapModel();
     }
     
-    // Method to refresh the map model - call this after status changes
     public void refreshMapModel() {
         geisternetzModel = new DefaultMapModel();
 
@@ -79,7 +79,6 @@ public class GeisternetzMapView implements Serializable {
             }
         }
         
-        // Verschollen information
         if (netz.getNetzStatus() == NetzStatus.VERSCHOLLEN) {
             List<Verschollen> verschollenMeldungen = verschollenDAO.getVerschollenMeldungenByGeisternetz(netz);
             if (!verschollenMeldungen.isEmpty()) {
@@ -96,30 +95,27 @@ public class GeisternetzMapView implements Serializable {
             }
         }
         
-        // Bergungsinformationen je nach Status
         if (netz.getNetzStatus() == NetzStatus.BERGUNGBEVORSTEHEND) {
-            info.append("<b>Geplante Bergung:</b> ").append(geisternetzListe.getFormatiertesGeplanteDatum(netz)).append("<br>");
-            if (!geisternetzListe.istAnonymGeborgen(netz)) {
-                Person berger = geisternetzListe.getErstenBerger(netz);
-                if (berger != null) {
-                    info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>");
-                }
-            } else {
-                info.append("<b>Berger:</b> Anonym<br>");
+            info.append("<b>Geplante Bergung:</b> ")
+                .append(geisternetzListe.getFormatiertesGeplanteDatum(netz))
+                .append("<br>");
+
+            Person berger = geisternetzListe.getErstenBerger(netz);
+            if (berger != null) {
+                info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>");
             }
+
         } else if (netz.getNetzStatus() == NetzStatus.GEBORGEN) {
-            info.append("<b>Geborgen am:</b> ").append(geisternetzListe.getFormatiertesTatsaechlichesDatum(netz)).append("<br>");
-            if (!geisternetzListe.istAnonymGeborgen(netz)) {
-                Person berger = geisternetzListe.getErstenBerger(netz);
-                if (berger != null) {
-                    info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>");
-                }
-            } else {
-                info.append("<b>Berger:</b> Anonym<br>");
+            info.append("<b>Geborgen am:</b> ")
+                .append(geisternetzListe.getFormatiertesTatsaechlichesDatum(netz))
+                .append("<br>");
+
+            Person berger = geisternetzListe.getErstenBerger(netz);
+            if (berger != null) {
+                info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>");
             }
         }
-        
-        // Bild hinzufügen, falls vorhanden
+
         if (netz.getBild() != null && !netz.getBild().isEmpty()) {
             info.append("<br><img src='").append(netz.getBild()).append("' style='max-width: 250px; max-height: 150px; border-radius: 5px;' alt='Geisternetz Bild'>");
         }
@@ -175,53 +171,59 @@ public class GeisternetzMapView implements Serializable {
         }
     }
 
-    public MapModel getGeisternetzModel() {
-        return geisternetzModel;
-    }
-
+  
     public void onMarkerSelect(OverlaySelectEvent event) {
         selectedMarker = (Marker) event.getOverlay();
         
-        // Geisternetz-Nummer aus dem Marker-Titel extrahieren und Controller informieren
         if (selectedMarker != null && selectedMarker.getTitle() != null) {
             try {
                 int geisternetzNummer = Integer.parseInt(selectedMarker.getTitle());
+                
+                selectedGeisternetz = geisternetzListe.getGeisternetze().stream()
+                    .filter(g -> g.getNr() == geisternetzNummer)
+                    .findFirst()
+                    .orElse(null);
+                
                 bergungsController.setAktuellesGeisternetzByNummer(geisternetzNummer);
+                
             } catch (NumberFormatException e) {
                 System.err.println("Fehler beim Parsen der Geisternetz-Nummer: " + selectedMarker.getTitle());
+                selectedGeisternetz = null;
             }
+        } else {
+            selectedGeisternetz = null;
         }
     }
+    
+    
     public void forceMapRefresh() {
-        // Clear the current model
         geisternetzModel = null;
-        
-        // Reinitialize
         init();
         
-        // Force JSF to update the view
         FacesContext context = FacesContext.getCurrentInstance();
         context.getPartialViewContext().getRenderIds().add("@form");
+    }
+
+    public MapModel getGeisternetzModel() {
+        return geisternetzModel;
     }
 
     public Marker getSelectedMarker() {
         return selectedMarker;
     }
     
-    // Hilfsmethode für die XHTML-Seite
     public Geisternetz getSelectedGeisternetz() {
-        if (selectedMarker == null || selectedMarker.getTitle() == null) {
-            return null;
+        if (selectedGeisternetz == null && selectedMarker != null && selectedMarker.getTitle() != null) {
+            try {
+                int geisternetzNummer = Integer.parseInt(selectedMarker.getTitle());
+                selectedGeisternetz = geisternetzListe.getGeisternetze().stream()
+                    .filter(g -> g.getNr() == geisternetzNummer)
+                    .findFirst()
+                    .orElse(null);
+            } catch (NumberFormatException e) {
+                return null;
+            }
         }
-        
-        try {
-            int geisternetzNummer = Integer.parseInt(selectedMarker.getTitle());
-            return geisternetzListe.getGeisternetze().stream()
-                .filter(g -> g.getNr() == geisternetzNummer)
-                .findFirst()
-                .orElse(null);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        return selectedGeisternetz;
     }
 }

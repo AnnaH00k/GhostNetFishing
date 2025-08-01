@@ -57,12 +57,6 @@ public class BergungDAO {
         return entityManager.createQuery(cq).getResultList();
     }
     
-    public List<Bergung> getAnonymeBergungen() {
-        CriteriaQuery<Bergung> cq = criteriaBuilder.createQuery(Bergung.class);
-        Root<Bergung> root = cq.from(Bergung.class);
-        cq.where(criteriaBuilder.isTrue(root.get("anonym")));
-        return entityManager.createQuery(cq).getResultList();
-    }
         
     public void updateBergung(Bergung bergung) {
         EntityTransaction t = entityManager.getTransaction();

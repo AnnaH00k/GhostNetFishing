@@ -85,12 +85,20 @@ public class GeisternetzListe implements Serializable {
     }
     
     
+    
+    
+    // Was ist mit der Funktion warum ist die hier dopelt drinnen? 
+    
     public void geisternetzHinzufuegen(Geisternetz geisternetz) {
         if (geisternetz != null) {
             List<Geisternetz> geisternetze = getGeisternetze();
             geisternetze.add(geisternetz);
         }
     }
+    
+    
+    
+    
    
     public void resetNeuesGeisternetz() {
         this.neuesGeisternetz = new Geisternetz();
@@ -111,68 +119,10 @@ public class GeisternetzListe implements Serializable {
     
     
     
-    public void fuerBergungAnmelden(Geisternetz geisternetz, Person berger, LocalDateTime geplanteBergung, boolean anonym) {
-        try {
-            EntityTransaction t = geisternetzDAO.getAndBeginTransaction();
-            
-            // Bergungseintrag mit geplantem Datum erstellen
-            Bergung bergung = new Bergung(geisternetz, berger, geplanteBergung, anonym);
-            bergungDAO.persistBergung(bergung);
-            
-            // Status auf BERGUNGBEVORSTEHEND setzen
-            geisternetz.setNetzStatus(NetzStatus.BERGUNGBEVORSTEHEND);
-            geisternetzDAO.merge(geisternetz);
-            
-            t.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Rollback falls nötig
-        }
-    }
     
-    public void bergungAbbrechen(Geisternetz geisternetz) {
-        try {
-            EntityTransaction t = geisternetzDAO.getAndBeginTransaction();
-            
-            List<Bergung> bergungen = getBergungenFuerGeisternetz(geisternetz);
-            bergungen.stream()
-                .filter(b -> b.getTatsaechlicheBergung() == null)
-                .forEach(bergungDAO::deleteBergung);
-                
-            geisternetz.setNetzStatus(NetzStatus.GEMELDET);
-            geisternetzDAO.merge(geisternetz);
-            
-            t.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+   
     
-    
-    public void bergungAbschliessen(Geisternetz geisternetz) {
-        try {
-            EntityTransaction t = geisternetzDAO.getAndBeginTransaction();
-            
-            List<Bergung> bergungen = getBergungenFuerGeisternetz(geisternetz);
-            Bergung aktiveBergung = bergungen.stream()
-                .filter(b -> b.getTatsaechlicheBergung() == null) 
-                .findFirst()
-                .orElse(null);
-                
-            if (aktiveBergung != null) {
-                aktiveBergung.setTatsaechlicheBergung(LocalDateTime.now());
-                bergungDAO.updateBergung(aktiveBergung);
-                
-                geisternetz.setNetzStatus(NetzStatus.GEBORGEN);
-                geisternetzDAO.merge(geisternetz);
-            }
-            
-            t.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
+   
     
     
     
@@ -191,20 +141,17 @@ public class GeisternetzListe implements Serializable {
     }
     
   
-    public boolean istAnonymGeborgen(Geisternetz geisternetz) {
-        List<Bergung> bergungen = getBergungenFuerGeisternetz(geisternetz);
-        return bergungen.stream().allMatch(Bergung::isAnonym);
-    }
+ 
     
  
     public Person getErstenBerger(Geisternetz geisternetz) {
-        List<Bergung> bergungen = getBergungenFuerGeisternetz(geisternetz);
-        return bergungen.stream()
-        			   .filter(m -> !m.isAnonym() && m.getBerger() != null)
-                       .map(Bergung::getBerger)
-                       .findFirst()
-                       .orElse(null);
+        return getBergungenFuerGeisternetz(geisternetz).stream()
+            .filter(b -> b.getBerger() != null)
+            .map(Bergung::getBerger)
+            .findFirst()
+            .orElse(null);
     }
+
     
     
     public LocalDateTime getGeplanteBergung(Geisternetz geisternetz) {
@@ -219,7 +166,7 @@ public class GeisternetzListe implements Serializable {
     public String getFormatiertesGeplanteDatum(Geisternetz geisternetz) {
         LocalDateTime datum = getGeplanteBergung(geisternetz);
         if (datum != null) {
-            return datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+            return datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         }
         return "Nicht geplant";
     }
@@ -236,9 +183,9 @@ public class GeisternetzListe implements Serializable {
     public String getFormatiertesTatsaechlichesDatum(Geisternetz geisternetz) {
         LocalDateTime datum = getTatsaechlicheBergung(geisternetz);
         if (datum != null) {
-            return datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+            return datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         }
-        return "Noch nicht geborgen";
+        return "Unbekannt";
     }
 
     public boolean istBergungGeplant(Geisternetz geisternetz) {

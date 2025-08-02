@@ -203,7 +203,8 @@ public class GeisternetzMapView implements Serializable {
             info.append("<b>Geborgen am:</b> ").append(geisternetzListe.getFormatiertesTatsaechlichesDatum(netz)).append("<br>");
         }
         Person berger = geisternetzListe.getErstenBerger(netz);
-        if (berger != null) info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>");
+        if (berger != null) info.append("<b>Berger:</b> ").append(berger.getName()).append("<br>")
+        .append("<b>Berger-Telefonnummer:</b> ").append(berger.getTelefonnummer()).append("<br>");
     }
 
 

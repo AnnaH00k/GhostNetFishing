@@ -15,10 +15,8 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:body>
 
-<!-- Filter Panel (nur für eingeloggte Benutzer) -->
 
 
-<!-- Ihr ursprünglicher Header - unverändert -->
 <h:form rendered="#{loginController.eingeloggt}" style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; top:0">
     <h:commandLink action="profilBearbeiten.xhtml?faces-redirect=true" style="border: none; background: none;">
         <p:avatar size="xlarge" shape="circle" styleClass="shadow-4 cursor-pointer">
@@ -46,7 +44,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                      title="Ausloggen" />
 </h:form>
 
-<!-- Ihr ursprünglicher Login-Bereich - unverändert -->
 <h:form rendered="#{loginController.nichtEingeloggt}" style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; height: 100vh; text-align: center;">
     <h1>Bitte melden Sie sich an</h1>
     <p style="font-size: 1.2rem; color: #666;">Sie müssen sich zuerst anmelden, um das Dashboard zu verwenden.</p>
@@ -72,7 +69,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                     oncomplete="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND' ? bergungsController.setAktuellesGeisternetz(geisternetzMapView.selectedGeisternetz) : ''}; PF('infoDialog').show()" />
         </p:gmap>
 
-        <!-- Dialog: Info / Bergung -->
         <p:dialog header="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND' ? 'Geisternetz-Bergung' : 'Geisternetz-Information'}"
                   widgetVar="infoDialog"
                   id="geisternetzInfoDialog"
@@ -102,7 +98,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                                  immediate="true" />
             </h:panelGroup>
 
-            <!-- Zusätzliche Bergungsaktionen nur für BERGEND -->
             <h:panelGroup rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'BERGEND'}">
                 <h4>Bergungsaktionen</h4>
         
@@ -213,7 +208,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
             </h:panelGroup>
         </p:dialog>
 
-        <!-- Filter -->
         <div style="display: flex; gap: 2vw; align-items: center; flex-wrap: wrap; justify-content: center; height: 5vh; width: 100vw; bottom: 0;">
             <p:selectBooleanCheckbox id="cbGemeldet" value="#{geisternetzMapView.showGemeldet}">
                 <p:ajax event="change" listener="#{geisternetzMapView.updateFilter}" update="geisternetzMap" />
@@ -236,7 +230,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
             <h:outputLabel for="cbVerschollen" value="Verschollen" />
         </div>
 
-        <!-- Buttons unten, abhängig von Rolle -->
         <div style="display: flex; gap: 20vw; align-items: center; flex-wrap: wrap; position:fixed; justify-content:center; height: 15vh; width: 100vw; bottom:0">
             <ui:fragment rendered="#{loginController.aktuellerNutzer.rollenTyp eq 'KEINE'}">
                 <p:button outcome="meldenInfo" value="Meldende Person werden" />

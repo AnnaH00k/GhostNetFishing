@@ -14,7 +14,8 @@
 <h:body style="background-color: #1e293b; font-family: Arial, sans-serif;">
 
     <h:form id="bergungenForm">
-        <p:panel header="Meine aktuellen Bergungen" style="margin: 2rem auto; max-width: 1200px; background: #f8fafc; border-radius: 12px;">
+        <p:panel header="Meine aktuellen Bergungen"  >
+                <p  style=" max-width: 1200px; background: #f8fafc; border-radius: 12px;">Das eigentliche Bergen der Geisternetze findet auf der Geisternetz Karte des Dashboards statt. </p>
             
             <p:dataTable value="#{bergungDAO.getBergungenByPerson(loginController.aktuellerNutzer)}" 
                          var="bergung" 

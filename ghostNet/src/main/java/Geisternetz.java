@@ -37,9 +37,7 @@ public class Geisternetz implements Serializable {
     @OneToMany(mappedBy = "geisternetz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Verschollen> verschollenMeldungen = new ArrayList<>();
     
-    
-    
-    
+ 
     
     public Geisternetz() {}
 
@@ -53,10 +51,7 @@ public class Geisternetz implements Serializable {
         this.setBild(bild);
 
     }
-    
-    
-    
-    // Getter und Setter für Beziehungen
+        
     public List<Meldung> getMeldungen() { return meldungen; }
     public void setMeldungen(List<Meldung> meldungen) { this.meldungen = meldungen; }
     
